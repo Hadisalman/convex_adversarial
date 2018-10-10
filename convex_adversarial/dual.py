@@ -7,6 +7,7 @@ import numpy as np
 # import cvxpy as cp
 
 from . import affine as Aff
+from IPython import embed
 
 def AffineTranspose(l): 
     if isinstance(l, nn.Linear): 
@@ -36,7 +37,7 @@ def full_bias(l, n=None):
     else:
         raise ValueError("Full bias can't be formed for given layer.")
 
-def batch(A, n): 
+def batch(A, n):
     return A.view(n, -1, *A.size()[1:])
 def unbatch(A): 
     return A.view(-1, *A.size()[2:])
@@ -156,16 +157,17 @@ class DualNetBounds:
             if i > 0:
                 # avoid in place operation
                 out = nu[i].clone()
-                out[self.I_neg[i-1].unsqueeze(1)] = 0
+                out[self.I_neg[i-1].unsqueeze(1).expand_as(out)] = 0
+                # embed()
                 if not self.I_empty[i-1]:
                     if self.alpha_grad: 
-                        out[self.I[i-1].unsqueeze(1)] = (self.s[i-1].unsqueeze(1).expand(*nu[i].size())[self.I[i-1].unsqueeze(1)] * 
+                        out[self.I[i-1].unsqueeze(1).expand_as(out)] = (self.s[i-1].unsqueeze(1).expand(*nu[i].size())[self.I[i-1].unsqueeze(1)] * 
                                                                nu[i][self.I[i-1].unsqueeze(1)])
                     else:
-                        out[self.I[i-1].unsqueeze(1)] = ((self.s[i-1].unsqueeze(1).expand(*nu[i].size())[self.I[i-1].unsqueeze(1)] * 
-                                                                                   torch.clamp(nu[i], min=0)[self.I[i-1].unsqueeze(1)])
-                                                         + (self.s[i-1].detach().unsqueeze(1).expand(*nu[i].size())[self.I[i-1].unsqueeze(1)] * 
-                                                                                   torch.clamp(nu[i], max=0)[self.I[i-1].unsqueeze(1)]))
+                        out[self.I[i-1].unsqueeze(1).expand_as(out)] = ((self.s[i-1].unsqueeze(1).expand_as(nu[i])[self.I[i-1].unsqueeze(1).expand_as(nu[i])] * 
+                                                                                   torch.clamp(nu[i], min=0)[self.I[i-1].unsqueeze(1).expand_as(nu[i])])
+                                                         + (self.s[i-1].detach().unsqueeze(1).expand_as(nu[i])[self.I[i-1].unsqueeze(1).expand_as(nu[i])] * 
+                                                                                   torch.clamp(nu[i], max=0)[self.I[i-1].unsqueeze(1).expand_as(nu[i])]))
                 nu[i] = out
 
         f = (-sum(nu[i+1].matmul(self.biases[i].view(-1)) for i in range(self.k-1))
@@ -187,5 +189,8 @@ def robust_loss(net, epsilon, X, y,
     err = (f.data.max(1)[1] != y.data)
     if size_average: 
         err = err.sum()/X.size(0)
-    ce_loss = nn.CrossEntropyLoss(size_average=size_average)(f, y)
+        ce_loss = nn.CrossEntropyLoss(reduction='elementwise_mean')(f, y)
+    else:
+        ce_loss = nn.CrossEntropyLoss(size_average=size_average)(f, y)
+
     return ce_loss, err
