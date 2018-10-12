@@ -1,4 +1,4 @@
-import setGPU
+# import setGPU
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -17,6 +17,7 @@ import problems as pblm
 import cvxpy as cp
 
 import numpy as np
+from IPython import embed
 
 cp2np = lambda x : np.asarray(x.value).T
 
@@ -40,7 +41,7 @@ if __name__ == "__main__":
         train_loader, test_loader = pblm.mnist_loaders(args.batch_size)
         model = pblm.mnist_model().cuda()
         # model.load_state_dict(torch.load('icml/mnist_epochs_100_baseline_model.pth'))
-        model.load_state_dict(torch.load('icml/mnist_epochs100_model.pth'))
+        # model.load_state_dict(torch.load('icml/mnist_epochs100_model.pth'))
     elif args.svhn: 
         train_loader, test_loader = pblm.svhn_loaders(args.batch_size)
         model = pblm.svhn_model().cuda()
@@ -96,8 +97,8 @@ if __name__ == "__main__":
                 cons_ball = [z[0] >= x - epsilon, z[0] <= x + epsilon]
                 cons_zero = [z[i] >= 0 for i in range(1,k)]
                 cons_linear = [z[i+1] >= zhat[i] for i in range(k-1)]
-                cons_upper = [(cp.mul_elemwise(-(np.maximum(zu[i],0) - np.maximum(zl[i], 0)), zhat[i]) +
-                               cp.mul_elemwise((zu[i] - zl[i]), z[i+1]) <= 
+                cons_upper = [(cp.multiply(-(np.maximum(zu[i],0) - np.maximum(zl[i], 0)), zhat[i]) +
+                               cp.multiply((zu[i] - zl[i]), z[i+1]) <= 
                                zu[i]*np.maximum(zl[i],0) - zl[i]*np.maximum(zu[i],0)) for i in range(k-1)]
                 
                 cons = cons_eq + cons_ball + cons_zero + cons_linear + cons_upper

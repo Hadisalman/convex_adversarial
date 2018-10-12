@@ -7,7 +7,6 @@ import numpy as np
 # import cvxpy as cp
 
 from . import affine as Aff
-from IPython import embed
 
 def AffineTranspose(l): 
     if isinstance(l, nn.Linear): 
@@ -146,7 +145,6 @@ class DualNetBounds:
             I_nonzero = (u != l).detach()
             if I_nonzero.data.sum() > 0: 
                 s[I_nonzero] = u[I_nonzero]/(u[I_nonzero]-l[I_nonzero])
-
         
     def g(self, c):
         n = c.size(0)
@@ -158,11 +156,10 @@ class DualNetBounds:
                 # avoid in place operation
                 out = nu[i].clone()
                 out[self.I_neg[i-1].unsqueeze(1).expand_as(out)] = 0
-                # embed()
                 if not self.I_empty[i-1]:
                     if self.alpha_grad: 
-                        out[self.I[i-1].unsqueeze(1).expand_as(out)] = (self.s[i-1].unsqueeze(1).expand(*nu[i].size())[self.I[i-1].unsqueeze(1)] * 
-                                                               nu[i][self.I[i-1].unsqueeze(1)])
+                        out[self.I[i-1].unsqueeze(1).expand_as(out)] = (self.s[i-1].unsqueeze(1).expand_as(nu[i])[self.I[i-1].unsqueeze(1).expand_as(nu[i])] * 
+                                                               nu[i][self.I[i-1].unsqueeze(1).expand_as(nu[i])])
                     else:
                         out[self.I[i-1].unsqueeze(1).expand_as(out)] = ((self.s[i-1].unsqueeze(1).expand_as(nu[i])[self.I[i-1].unsqueeze(1).expand_as(nu[i])] * 
                                                                                    torch.clamp(nu[i], min=0)[self.I[i-1].unsqueeze(1).expand_as(nu[i])])
