@@ -14,12 +14,17 @@ import torch.backends.cudnn as cudnn
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 
+from tensorboardX import SummaryWriter
+
 import setproctitle
 
 import problems as pblm
 from trainer import *
 import math
 import numpy as np
+import os 
+
+from IPython import embed
 
 def select_model(m): 
     if m == 'large': 
@@ -40,13 +45,15 @@ def select_model(m):
 
 if __name__ == "__main__": 
     args = pblm.argparser(opt='adam', verbose=200, starting_epsilon=0.01)
+    
+    writer = SummaryWriter(os.path.join(args.output_dir, args.prefix))
+
     print("saving file to {}".format(args.prefix))
     setproctitle.setproctitle(args.prefix)
-    train_log = open(args.prefix + "_train.log", "w")
-    test_log = open(args.prefix + "_test.log", "w")
+    train_log = open(os.path.join(args.output_dir, args.prefix + "_train.log"), "w")
+    test_log = open(os.path.join(args.output_dir, args.prefix + "_test.log"), "w")
 
-    train_loader, _ = pblm.mnist_loaders(args.batch_size)
-    _, test_loader = pblm.mnist_loaders(args.test_batch_size)
+    train_loader, test_loader = pblm.mnist_loaders(args.batch_size, data_directory=args.data_dir)
 
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed(args.seed)
@@ -58,7 +65,7 @@ if __name__ == "__main__":
 
     sampler_indices = []
     model = [select_model(args.model)]
-
+    embed()
     for _ in range(0,args.cascade): 
         if _ > 0: 
             # reduce dataset to just uncertified examples
@@ -135,11 +142,12 @@ if __name__ == "__main__":
                     'err' : best_err,
                     'epoch' : t,
                     'sampler_indices' : sampler_indices
-                    }, args.prefix + "_best.pth")
+                    }, os.path.join(args.output_dir, args.prefix + "_best.pth"))
                 
             torch.save({ 
                 'state_dict': [m.state_dict() for m in model],
                 'err' : err,
                 'epoch' : t,
                 'sampler_indices' : sampler_indices
-                }, args.prefix + "_checkpoint.pth")
+                }, os.path.join(args.output_dir, args.prefix + "_checkpoint.pth"))
+    writer.close()

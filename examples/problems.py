@@ -59,9 +59,9 @@ class Flatten(nn.Module):
     def forward(self, x):
         return x.view(x.size(0), -1)
 
-def mnist_loaders(batch_size, shuffle_test=False): 
-    mnist_train = datasets.MNIST("./data", train=True, download=True, transform=transforms.ToTensor())
-    mnist_test = datasets.MNIST("./data", train=False, download=True, transform=transforms.ToTensor())
+def mnist_loaders(batch_size, shuffle_test=False, data_directory="./data"):
+    mnist_train = datasets.MNIST(data_directory, train=True, download=True, transform=transforms.ToTensor())
+    mnist_test = datasets.MNIST(data_directory, train=False, download=True, transform=transforms.ToTensor())
     train_loader = torch.utils.data.DataLoader(mnist_train, batch_size=batch_size, shuffle=True, pin_memory=True)
     test_loader = torch.utils.data.DataLoader(mnist_test, batch_size=batch_size, shuffle=shuffle_test, pin_memory=True)
     return train_loader, test_loader
@@ -344,7 +344,13 @@ def argparser(batch_size=50, epochs=20, seed=0, verbose=1, lr=1e-3,
     parser.add_argument('--verbose', type=int, default=verbose)
     parser.add_argument('--cuda_ids', default=None)
 
-    
+    # data and output directories
+    parser.add_argument('--data_dir', type=str, default=os.getenv('PT_DATA_DIR', 'data'),
+        help='Directory where MNIST dataset is stored.')
+    parser.add_argument('--output_dir', type=str, default=os.getenv('PT_OUTPUT_DIR', '.'),
+        help='Directory to save model and summaries')
+
+
     args = parser.parse_args()
     if args.starting_epsilon is None:
         args.starting_epsilon = args.epsilon 

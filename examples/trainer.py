@@ -13,7 +13,8 @@ from attacks import _pgd
 
 DEBUG = False
 
-def train_robust(loader, model, opt, epsilon, epoch, log, verbose, 
+from IPython import embed
+def train_robust(loader, model, opt, epsilon, epoch, log, writer, verbose, 
                 real_time=False, clip_grad=None, **kwargs):
     batch_time = AverageMeter()
     data_time = AverageMeter()
@@ -27,7 +28,7 @@ def train_robust(loader, model, opt, epsilon, epoch, log, verbose,
     end = time.time()
     for i, (X,y) in enumerate(loader):
         X,y = X.cuda(), y.cuda().long()
-        if y.dim() == 2: 
+        if y.dim() == 2:
             y = y.squeeze(1)
         data_time.update(time.time() - end)
 
@@ -62,6 +63,8 @@ def train_robust(loader, model, opt, epsilon, epoch, log, verbose,
         print(epoch, i, robust_ce.detach().item(), 
                 robust_err, ce.item(), err.item(), file=log)
 
+        iteration = epoch*len(loader) + i
+        
         if verbose and (i % verbose == 0 or real_time): 
             endline = '\n' if i % verbose == 0 else '\r'
             print('Epoch: [{0}][{1}/{2}]\t'
@@ -75,6 +78,10 @@ def train_robust(loader, model, opt, epsilon, epoch, log, verbose,
                    data_time=data_time, loss=losses, errors=errors, 
                    rloss = robust_losses, rerrors = robust_errors), end=endline)
         log.flush()
+        writer.add_scalar('train/Robust loss', robust_losses.val, iteration)
+        writer.add_scalar('train/Robust error', robust_errors.val, iteration)
+        writer.add_scalar('train/loss', losses.val, iteration)
+        writer.add_scalar('train/error', errors.val, iteration)
 
         del X, y, robust_ce, out, ce, err, robust_err
         if DEBUG and i ==10: 
@@ -83,7 +90,7 @@ def train_robust(loader, model, opt, epsilon, epoch, log, verbose,
     torch.cuda.empty_cache()
 
 
-def evaluate_robust(loader, model, epsilon, epoch, log, verbose, 
+def evaluate_robust(loader, model, epsilon, epoch, log, writer, verbose, 
                     real_time=False, parallel=False, **kwargs):
     batch_time = AverageMeter()
     losses = AverageMeter()
@@ -121,6 +128,9 @@ def evaluate_robust(loader, model, epsilon, epoch, log, verbose,
 
         print(epoch, i, robust_ce.item(), robust_err, ce.item(), err.item(),
            file=log)
+
+        iteration = epoch*len(loader) + i
+
         if verbose: 
             # print(epoch, i, robust_ce.data[0], robust_err, ce.data[0], err)
             endline = '\n' if i % verbose == 0 else '\r'
@@ -134,6 +144,10 @@ def evaluate_robust(loader, model, epsilon, epoch, log, verbose,
                       loss=losses, error=errors, rloss = robust_losses, 
                       rerrors = robust_errors), end=endline)
         log.flush()
+        writer.add_scalar('test/Robust loss', robust_losses.val, iteration)
+        writer.add_scalar('test/Robust error', robust_errors.val, iteration)
+        writer.add_scalar('test/loss', losses.val, iteration)
+        writer.add_scalar('test/error', errors.val, iteration)
 
         del X, y, robust_ce, out, ce
         if DEBUG and i ==10: 
