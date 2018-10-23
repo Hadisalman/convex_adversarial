@@ -1,0 +1,104 @@
+description: Job for CMU robust verification code
+
+auth:
+  # which virtual cluster you belong to (msrlabs, etc.). Everyone has access to "pnrsy".
+  vc: msrlabs
+  # physical cluster to use (cam, gcr, rr1, rr2) or Azure clusters (eu1, eu2, etc.)
+  cluster: gcr
+  docker:
+    image: hadisalman/test:latest
+
+code:
+  # local directory of the code. this will be uploaded to the server.
+  # $CONFIG_DIR is expanded to the directory of this config file
+  code_upload: true
+  local_dir: $CONFIG_DIR
+
+data:
+#   data upload is not required for this example
+  data_upload: false
+  local_dir: $CONFIG_DIR/data
+  remote_dir: data
+
+# list of jobs to run, we run 2 jobs in this example
+jobs:
+  # name must be unique across the jobs
+- name: job_small
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network.py --model small  
+
+- name: job_large
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network.py --model large
+
+- name: job_wide_1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network.py --model wide --model_factor  1
+
+- name: job_wide_2
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network.py --model wide --model_factor  2
+
+- name: job_wide_4
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network.py --model wide --model_factor  4
+
+- name: job_wide_8
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network.py --model wide --model_factor  8
+
+- name: job_wide_16
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network.py --model wide --model_factor  16
+
+- name: job_deep_1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network.py --model deep --model_factor  1
+
+- name: job_deep_2
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network.py --model deep --model_factor  2
+
+- name: job_deep_3
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network.py --model deep --model_factor  3

@@ -90,8 +90,8 @@ def train_robust(loader, model, opt, epsilon, epoch, log, writer, verbose,
     torch.cuda.empty_cache()
 
 
-def evaluate_robust(loader, model, epsilon, epoch, log, writer, verbose, 
-                    real_time=False, parallel=False, **kwargs):
+def evaluate_robust(loader, model, epsilon, epoch, log, verbose, 
+                    real_time=False, parallel=False, writer=None, **kwargs):
     batch_time = AverageMeter()
     losses = AverageMeter()
     errors = AverageMeter()
@@ -128,43 +128,45 @@ def evaluate_robust(loader, model, epsilon, epoch, log, writer, verbose,
 
         print(epoch, i, robust_ce.item(), robust_err, ce.item(), err.item(),
            file=log)
-
-        iteration = epoch*len(loader) + i
-
-        if verbose: 
-            # print(epoch, i, robust_ce.data[0], robust_err, ce.data[0], err)
-            endline = '\n' if i % verbose == 0 else '\r'
-            print('Test: [{0}/{1}]\t'
-                  'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
-                  'Robust loss {rloss.val:.3f} ({rloss.avg:.3f})\t'
-                  'Robust error {rerrors.val:.3f} ({rerrors.avg:.3f})\t'
-                  'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
-                  'Error {error.val:.3f} ({error.avg:.3f})'.format(
-                      i, len(loader), batch_time=batch_time, 
-                      loss=losses, error=errors, rloss = robust_losses, 
-                      rerrors = robust_errors), end=endline)
         log.flush()
-        writer.add_scalar('test/Robust loss', robust_losses.val, iteration)
-        writer.add_scalar('test/Robust error', robust_errors.val, iteration)
-        writer.add_scalar('test/loss', losses.val, iteration)
-        writer.add_scalar('test/error', errors.val, iteration)
+
 
         del X, y, robust_ce, out, ce
         if DEBUG and i ==10: 
             break
+
+    if verbose:
+        # print(epoch, i, robust_ce.data[0], robust_err, ce.data[0], err)
+        endline = '\n' if i % verbose == 0 else '\r'
+        print('Test: [{0}/{1}]\t'
+              'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
+              'Robust loss {rloss.val:.3f} ({rloss.avg:.3f})\t'
+              'Robust error {rerrors.val:.3f} ({rerrors.avg:.3f})\t'
+              'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
+              'Error {error.val:.3f} ({error.avg:.3f})'.format(
+                  i, len(loader), batch_time=batch_time, 
+                  loss=losses, error=errors, rloss = robust_losses, 
+                  rerrors = robust_errors), end=endline)
+    if writer is not None:
+        writer.add_scalar('test/Robust loss', robust_losses.avg, epoch)
+        writer.add_scalar('test/Robust error', robust_errors.avg, epoch)
+        writer.add_scalar('test/loss', losses.avg, epoch)
+        writer.add_scalar('test/error', errors.avg, epoch)
+
     torch.set_grad_enabled(True)
     torch.cuda.empty_cache()
     print('')
     print(' * Robust error {rerror.avg:.3f}\t'
-          'Error {error.avg:.3f}'
+          'Test Error {error.avg:.3f}'
           .format(rerror=robust_errors, error=errors))
     return robust_errors.avg
 
-def train_baseline(loader, model, opt, epoch, log, verbose):
+def train_baseline(loader, model, opt, epoch, log, writer, verbose):
     batch_time = AverageMeter()
     data_time = AverageMeter()
     losses = AverageMeter()
     errors = AverageMeter()
+    accuracy = AverageMeter()
 
     model.train()
 
@@ -183,24 +185,35 @@ def train_baseline(loader, model, opt, epoch, log, verbose):
 
         batch_time.update(time.time()-end)
         end = time.time()
-        losses.update(ce.data[0], X.size(0))
+        losses.update(ce.data.item(), X.size(0))
         errors.update(err, X.size(0))
+        accuracy.update((1-err)*100)
 
-        print(epoch, i, ce.data[0], err, file=log)
+        iteration = epoch*len(loader) + i
+
+        print(epoch, i, ce.data.item(), err, file=log)
         if verbose and i % verbose == 0: 
             print('Epoch: [{0}][{1}/{2}]\t'
                   'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
                   'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
                   'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
-                  'Error {errors.val:.3f} ({errors.avg:.3f})'.format(
-                   epoch, i, len(loader), batch_time=batch_time,
-                   data_time=data_time, loss=losses, errors=errors))
-        log.flush()
+                  'Error {errors.val:.3f} ({errors.avg:.3f})\t'
+                  'Avg accuracy {accuracy.avg:.3f} %'.format(
+                   epoch, i+1, len(loader), batch_time=batch_time,
+                   data_time=data_time, loss=losses, errors=errors,
+                   accuracy=accuracy))
 
-def evaluate_baseline(loader, model, epoch, log, verbose):
+        log.flush()
+        writer.add_scalar('train/loss', losses.val, iteration)
+        writer.add_scalar('train/error', errors.val, iteration)
+        writer.add_scalar('train/accuracy', accuracy.val, iteration)
+
+
+def evaluate_baseline(loader, model, epoch=None, log=None, verbose=None, writer=None):
     batch_time = AverageMeter()
     losses = AverageMeter()
     errors = AverageMeter()
+    accuracy = AverageMeter()
 
     model.eval()
 
@@ -212,27 +225,33 @@ def evaluate_baseline(loader, model, epoch, log, verbose):
         err = (out.data.max(1)[1] != y).float().sum()  / X.size(0)
 
         # print to logfile
-        print(epoch, i, ce.data[0], err, file=log)
+        if log:
+            print(epoch, i, ce.data.item(), err, file=log)
 
         # measure accuracy and record loss
-        losses.update(ce.data[0], X.size(0))
+        losses.update(ce.data.item(), X.size(0))
         errors.update(err, X.size(0))
+        accuracy.update((1-err)*100)
 
         # measure elapsed time
         batch_time.update(time.time() - end)
         end = time.time()
+        if log is not None:
+            log.flush()
 
-        if verbose and i % verbose == 0: 
-            print('Test: [{0}/{1}]\t'
-                  'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
-                  'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
-                  'Error {error.val:.3f} ({error.avg:.3f})'.format(
-                      i, len(loader), batch_time=batch_time, loss=losses,
-                      error=errors))
-        log.flush()
+    if verbose: 
+        print('Test: [{0}/{1}]\t'
+              'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
+              'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
+              'Error {error.val:.3f} ({error.avg:.3f})\t'
+              'Avg accuracy {accuracy.avg:.3f} %'.format(
+                  i+1, len(loader), batch_time=batch_time, loss=losses,
+                  error=errors, accuracy=accuracy))
+    if writer is not None:
+        writer.add_scalar('test/loss', losses.avg, epoch)
+        writer.add_scalar('test/error', errors.avg, epoch)
+        writer.add_scalar('test/accuracy', accuracy.avg, epoch)
 
-    print(' * Error {error.avg:.3f}'
-          .format(error=errors))
     return errors.avg
 
 
@@ -281,12 +300,12 @@ def train_madry(loader, model, epsilon, opt, epoch, log, verbose):
 
         batch_time.update(time.time()-end)
         end = time.time()
-        losses.update(ce.data[0], X.size(0))
+        losses.update(ce.data.item(), X.size(0))
         errors.update(err, X.size(0))
-        plosses.update(pce.data[0], X.size(0))
+        plosses.update(pce.data.item(), X.size(0))
         perrors.update(perr, X.size(0))
 
-        print(epoch, i, ce.data[0], err, file=log)
+        print(epoch, i, ce.data.item(), err, file=log)
         if verbose and i % verbose == 0: 
             print('Epoch: [{0}][{1}/{2}]\t'
                   'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
@@ -300,7 +319,7 @@ def train_madry(loader, model, epsilon, opt, epoch, log, verbose):
                    ploss=plosses, perrors=perrors))
         log.flush()
 
-def evaluate_madry(loader, model, epsilon, epoch, log, verbose):
+def evaluate_madry(loader, model, epsilon, epoch=None, log=None, verbose=None, writer=None):
     batch_time = AverageMeter()
     losses = AverageMeter()
     errors = AverageMeter()
@@ -320,31 +339,36 @@ def evaluate_madry(loader, model, epsilon, epoch, log, verbose):
         _, pgd_err = _pgd(model, Variable(X), Variable(y), epsilon)
 
         # print to logfile
-        print(epoch, i, ce.data[0], err, file=log)
+        if log is not None:
+            print(epoch, i, ce.data.item(), err, file=log)
 
         # measure accuracy and record loss
-        losses.update(ce.data[0], X.size(0))
+        losses.update(ce.data.item(), X.size(0))
         errors.update(err, X.size(0))
         perrors.update(pgd_err, X.size(0))
 
         # measure elapsed time
         batch_time.update(time.time() - end)
         end = time.time()
+        if log is not None:
+            log.flush()
 
-        if verbose and i % verbose == 0: 
-            print('Test: [{0}/{1}]\t'
-                  'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
-                  'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
-                  'PGD Error {perror.val:.3f} ({perror.avg:.3f})\t'
-                  'Error {error.val:.3f} ({error.avg:.3f})'.format(
-                      i, len(loader), batch_time=batch_time, loss=losses,
-                      error=errors, perror=perrors))
-        log.flush()
 
+    if verbose: 
+        print('Test: [{0}/{1}]\t'
+              'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
+              'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
+              'PGD Error {perror.val:.3f} ({perror.avg:.3f})\t'
+              'Error {error.val:.3f} ({error.avg:.3f})'.format(
+                  i, len(loader), batch_time=batch_time, loss=losses,
+                  error=errors, perror=perrors))
+    if writer is not None:
+        writer.add_scalar('test/Madry error', perrors.avg, epoch)
+    
     print(' * PGD error {perror.avg:.3f}\t'
-          'Error {error.avg:.3f}'
+          'Test Error {error.avg:.3f}'
           .format(error=errors, perror=perrors))
-
+    return perrors.avg
 
 def robust_loss_cascade(models, epsilon, X, y, **kwargs): 
     total_robust_ce = 0.

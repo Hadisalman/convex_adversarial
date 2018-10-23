@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     sampler_indices = []
     model = [select_model(args.model)]
-    embed()
+
     for _ in range(0,args.cascade): 
         if _ > 0: 
             # reduce dataset to just uncertified examples

@@ -136,9 +136,9 @@ def robust_loss_parallel(net, epsilon, X, y, proj=None,
                  norm_type='l1', bounded_input=False, size_average=True): 
     if any('BatchNorm2d' in str(l.__class__.__name__) for l in net): 
         raise NotImplementedError
-    if bounded_input: 
+    if bounded_input:
         raise NotImplementedError('parallel loss for bounded input spaces not implemented')
-    if X.size(0) != 1: 
+    if X.size(0) != 1:
         raise ValueError('Only use this function for a single example. This is '
             'intended for the use case when a single example does not fit in '
             'memory.')

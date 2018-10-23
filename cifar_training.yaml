@@ -1,0 +1,152 @@
+description: Job for CIFAR training for various VGG models
+
+auth:
+  # which virtual cluster you belong to (msrlabs, etc.). Everyone has access to "pnrsy".
+  vc: msrlabs
+  # physical cluster to use (cam, gcr, rr1, rr2) or Azure clusters (eu1, eu2, etc.)
+  cluster: gcr
+  docker:
+    image: hadisalman/test:latest
+
+code:
+  # local directory of the code. this will be uploaded to the server.
+  # $CONFIG_DIR is expanded to the directory of this config file
+  code_upload: true
+  local_dir: $CONFIG_DIR
+
+data:
+#   data upload is not required for this example
+  data_upload: true
+  local_dir: $CONFIG_DIR/data
+  remote_dir: data
+
+# list of jobs to run, we run 2 jobs in this example
+jobs:
+  # name must be unique across the jobs
+- name: vgg11
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model vgg11 --train
+
+- name: vgg11_bn
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model vgg11_bn --train
+
+- name: vgg13
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model vgg13 --train
+
+- name: vgg13_bn
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model vgg13_bn --train
+
+- name: vgg16
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model vgg16 --train
+
+- name: vgg16_bn
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model vgg16_bn --train
+
+- name: vgg19
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model vgg19 --train
+
+- name: vgg19_bn
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model vgg19_bn --train
+
+- name: ResNet18
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model ResNet18 --train
+
+- name: ResNet34
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model ResNet34 --train
+
+- name: ResNet50
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model ResNet50 --train
+
+- name: ResNet101
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model ResNet101 --train
+
+- name: ResNet152
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model ResNet152 --train
+
+- name: DenseNet121
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model DenseNet121 --train
+
+- name: DenseNet169
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model DenseNet169 --train
+
+- name: DenseNet201
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/verify_network_cifar.py --model DenseNet201 --train

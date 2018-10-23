@@ -74,7 +74,7 @@ def attack(loader, model, epsilon, verbose=False, atk=None,
             y = y.squeeze(1)
         
         if robust: 
-            robust_ce, robust_err = robust_loss_batch(model, epsilon, X, y, False, False)
+            robust_ce, robust_err = robust_loss(model, epsilon, X, y, False, False)
 
         err, err_fgs = atk(model, X, y, epsilon)
         

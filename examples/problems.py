@@ -189,22 +189,25 @@ def har_resnet_model():
         )
     return model
 
-def cifar_loaders(batch_size, shuffle_test=False): 
-    normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                                     std=[0.225, 0.225, 0.225])
-    train = datasets.CIFAR10('./data', train=True, download=True, 
+def cifar_loaders(batch_size, shuffle_test=False, data_directory='./data'): 
+    train = datasets.CIFAR10(data_directory, train=True, download=True, 
         transform=transforms.Compose([
-            transforms.RandomHorizontalFlip(),
             transforms.RandomCrop(32, 4),
+            transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
-            normalize,
+            transforms.Normalize(mean=(0.4914, 0.4822, 0.4465),
+                                     std=(0.2023, 0.1994, 0.2010)),
         ]))
-    test = datasets.CIFAR10('./data', train=False, 
-        transform=transforms.Compose([transforms.ToTensor(), normalize]))
+    test = datasets.CIFAR10(data_directory, train=False, 
+        transform=transforms.Compose([transforms.ToTensor(),
+                transforms.Normalize(mean=(0.4914, 0.4822, 0.4465),
+                                         std=(0.2023, 0.1994, 0.2010))]))
+    
     train_loader = torch.utils.data.DataLoader(train, batch_size=batch_size,
         shuffle=True, pin_memory=True)
-    test_loader = torch.utils.data.DataLoader(test, batch_size=batch_size,
+    test_loader = torch.utils.data.DataLoader(test, batch_size=100,
         shuffle=shuffle_test, pin_memory=True)
+    
     return train_loader, test_loader
 
 def cifar_model(): 
@@ -243,6 +246,7 @@ def cifar_model_large():
         nn.Linear(512,10)
     )
     return model
+
     for m in model.modules():
         if isinstance(m, nn.Conv2d):
             n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
@@ -338,7 +342,8 @@ def argparser(batch_size=50, epochs=20, seed=0, verbose=1, lr=1e-3,
 
     # other arguments
     parser.add_argument('--prefix')
-    parser.add_argument('--load')
+    parser.add_argument('--train', action='store_true', help='Train if true')
+    parser.add_argument('--load', action='store_true', help='The model checkpoint to load')
     parser.add_argument('--real_time', action='store_true')
     parser.add_argument('--seed', type=int, default=seed)
     parser.add_argument('--verbose', type=int, default=verbose)
