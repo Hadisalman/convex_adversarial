@@ -210,7 +210,7 @@ def cifar_loaders(batch_size, shuffle_test=False, data_directory='./data'):
     
     return train_loader, test_loader
 
-def cifar_model(): 
+def cifar_model():
     model = nn.Sequential(
         nn.Conv2d(3, 16, 4, stride=2, padding=1),
         nn.ReLU(),
@@ -254,7 +254,7 @@ def cifar_model_large():
             m.bias.data.zero_()
     return model
 
-def cifar_model_resnet(N = 5, factor=10): 
+def cifar_model_resnet(N = 1, factor=1): 
     def  block(in_filters, out_filters, k, downsample): 
         if not downsample: 
             k_first = 3
@@ -338,7 +338,6 @@ def argparser(batch_size=50, epochs=20, seed=0, verbose=1, lr=1e-3,
     parser.add_argument('--method', default=None)
     parser.add_argument('--resnet_N', type=int, default=1)
     parser.add_argument('--resnet_factor', type=int, default=1)
-
 
     # other arguments
     parser.add_argument('--prefix')

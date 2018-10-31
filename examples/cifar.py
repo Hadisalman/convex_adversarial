@@ -53,7 +53,7 @@ if __name__ == "__main__":
 
     sampler_indices = []
     model = [select_model(args.model)]
-
+    embed()
     kwargs = pblm.args2kwargs(args)
     best_err = 1
 

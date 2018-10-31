@@ -22,7 +22,7 @@ import problems as pblm
 from trainer import *
 import math
 import numpy as np
-import os 
+import os
 
 from IPython import embed
 
@@ -39,7 +39,8 @@ def select_model(m):
         _, test_loader = pblm.mnist_loaders(64//(2**args.model_factor))
         model = pblm.mnist_model_deep(args.model_factor).cuda()
     else: 
-        model = pblm.mnist_model().cuda() 
+        model = pblm.mnist_model().cuda()
+    embed() 
     return model
 
 

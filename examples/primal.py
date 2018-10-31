@@ -1,4 +1,4 @@
-import setGPU
+# import setGPU
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -40,7 +40,7 @@ if __name__ == "__main__":
         train_loader, test_loader = pblm.mnist_loaders(args.batch_size)
         model = pblm.mnist_model().cuda()
         # model.load_state_dict(torch.load('icml/mnist_epochs_100_baseline_model.pth'))
-        model.load_state_dict(torch.load('icml/mnist_epochs100_model.pth'))
+        # model.load_state_dict(torch.load('icml/mnist_epochs100_model.pth'))
     elif args.svhn: 
         train_loader, test_loader = pblm.svhn_loaders(args.batch_size)
         model = pblm.svhn_model().cuda()

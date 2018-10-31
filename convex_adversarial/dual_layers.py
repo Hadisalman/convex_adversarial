@@ -157,7 +157,7 @@ class DualReshape(DualLayer):
         shape = x.size()[:-len(self.in_f)] + self.out_f
         return x.view(shape)
 
-    def T(self, *xs): 
+    def T(self, *xs):
         x = xs[-1]
         if x is None: 
             return None

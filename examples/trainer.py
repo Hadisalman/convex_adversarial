@@ -90,7 +90,7 @@ def train_robust(loader, model, opt, epsilon, epoch, log, writer, verbose,
     torch.cuda.empty_cache()
 
 
-def evaluate_robust(loader, model, epsilon, epoch, log, verbose, 
+def evaluate_robust(loader, model, epsilon, epoch=None, log=None, verbose=None, 
                     real_time=False, parallel=False, writer=None, **kwargs):
     batch_time = AverageMeter()
     losses = AverageMeter()
@@ -126,16 +126,18 @@ def evaluate_robust(loader, model, epsilon, epoch, log, verbose,
         batch_time.update(time.time()-end)
         end = time.time()
 
-        print(epoch, i, robust_ce.item(), robust_err, ce.item(), err.item(),
-           file=log)
-        log.flush()
+        if log is not None:
+            print(epoch, i, robust_ce.item(), robust_err, ce.item(), err.item(),
+               file=log)
+        if log is not None:
+            log.flush()
 
 
         del X, y, robust_ce, out, ce
         if DEBUG and i ==10: 
             break
 
-    if verbose:
+    if verbose is not None:
         # print(epoch, i, robust_ce.data[0], robust_err, ce.data[0], err)
         endline = '\n' if i % verbose == 0 else '\r'
         print('Test: [{0}/{1}]\t'
