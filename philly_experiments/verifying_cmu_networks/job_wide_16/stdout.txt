@@ -1,0 +1,71 @@
+2018-10-24T05:29:06.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:06.772658       1 setup-container.go:231] Setting up container.
+2018-10-24T05:29:06.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:06.814559       1 setup-container.go:86] Successfully added user to the container.
+2018-10-24T05:29:06.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:06.854091       1 setup-container.go:103] Successfully updated /etc/profile to include environment file.
+2018-10-24T05:29:06.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:06.862306       1 setup-container.go:112] Couldn't find sudo command in the container. Installing a static one.
+2018-10-24T05:29:06.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:06.890164       1 setup-container.go:147] Successfully enabled restricted sudo for the user.
+2018-10-24T05:29:06.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:06.986780      13 setup-ssh.go:94] Successfully added Philly ssh tools to current, and subsequent login environments.
+2018-10-24T05:29:07.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:07.201788      13 setup-ssh.go:181] Successfully generated ssh configuration file for this container.
+2018-10-24T05:29:07.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:07.364027      13 setup-ssh.go:131] Successfully generated ssh key for inter container communication.
+2018-10-24T05:29:07.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:07.761053       1 setup-container.go:168] Successfully completed setting up ssh.
+2018-10-24T05:29:07.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:07.799093      27 wait-for-file.go:36] Waiting for file /var/storage/shared/msrlabs/sys/jobs/application_1538777410028_14494/scratch/3/runtime_config.json.
+2018-10-24T05:29:07.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:07.799439      27 wait-for-file.go:51] Waiting for file /var/storage/shared/msrlabs/sys/jobs/application_1538777410028_14494/scratch/3/runtime_config.json.
+2018-10-24T05:29:27.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:27.799435      27 wait-for-file.go:51] Waiting for file /var/storage/shared/msrlabs/sys/jobs/application_1538777410028_14494/scratch/3/runtime_config.json.
+2018-10-24T05:29:47.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:47.800096      27 wait-for-file.go:56] File /var/storage/shared/msrlabs/sys/jobs/application_1538777410028_14494/scratch/3/runtime_config.json exists. Exiting.
+2018-10-24T05:29:47.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:47.800555       1 setup-container.go:183] Found job runtime config file.
+2018-10-24T05:29:47.000Z /container_e271_1538777410028_14494_03_000002: I1024 05:29:47.800598       1 setup-container.go:190] Running user specified command line.
+2018-10-24T05:29:53.000Z /container_e271_1538777410028_14494_03_000002: Collecting tensorflow
+2018-10-24T05:29:53.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/ce/d5/38cd4543401708e64c9ee6afa664b936860f4630dd93a49ab863f9998cd2/tensorflow-1.11.0-cp36-cp36m-manylinux1_x86_64.whl (63.0MB)
+2018-10-24T05:29:58.000Z /container_e271_1538777410028_14494_03_000002: Collecting tensorboard
+2018-10-24T05:29:58.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/e0/d0/65fe48383146199f16dbd5999ef226b87bce63ad5cd73c840cf722637969/tensorboard-1.12.0-py3-none-any.whl (3.0MB)
+2018-10-24T05:29:58.000Z /container_e271_1538777410028_14494_03_000002: Collecting keras-preprocessing>=1.0.3 (from tensorflow)
+2018-10-24T05:29:58.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/fc/94/74e0fa783d3fc07e41715973435dd051ca89c550881b3454233c39c73e69/Keras_Preprocessing-1.0.5-py2.py3-none-any.whl
+2018-10-24T05:29:58.000Z /container_e271_1538777410028_14494_03_000002: Collecting grpcio>=1.8.6 (from tensorflow)
+2018-10-24T05:29:59.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/c3/4c/0a7c55764ac3013ca7a5e9638ee7b161488c0611afc2be465452987a3ccc/grpcio-1.16.0-cp36-cp36m-manylinux1_x86_64.whl (9.7MB)
+2018-10-24T05:29:59.000Z /container_e271_1538777410028_14494_03_000002: Collecting gast>=0.2.0 (from tensorflow)
+2018-10-24T05:29:59.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/5c/78/ff794fcae2ce8aa6323e789d1f8b3b7765f601e7702726f430e814822b96/gast-0.2.0.tar.gz
+2018-10-24T05:30:01.000Z /container_e271_1538777410028_14494_03_000002: Requirement already satisfied: setuptools<=39.1.0 in /opt/conda/lib/python3.6/site-packages (from tensorflow) (38.4.0)
+2018-10-24T05:30:01.000Z /container_e271_1538777410028_14494_03_000002: Collecting termcolor>=1.1.0 (from tensorflow)
+2018-10-24T05:30:01.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/8a/48/a76be51647d0eb9f10e2a4511bf3ffb8cc1e6b14e9e4fab46173aa79f981/termcolor-1.1.0.tar.gz
+2018-10-24T05:30:01.000Z /container_e271_1538777410028_14494_03_000002: Requirement already satisfied: wheel>=0.26 in /opt/conda/lib/python3.6/site-packages (from tensorflow) (0.30.0)
+2018-10-24T05:30:01.000Z /container_e271_1538777410028_14494_03_000002: Requirement already satisfied: numpy>=1.13.3 in /opt/conda/lib/python3.6/site-packages (from tensorflow) (1.14.2)
+2018-10-24T05:30:01.000Z /container_e271_1538777410028_14494_03_000002: Collecting keras-applications>=1.0.5 (from tensorflow)
+2018-10-24T05:30:01.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/3f/c4/2ff40221029f7098d58f8d7fb99b97e8100f3293f9856f0fb5834bef100b/Keras_Applications-1.0.6-py2.py3-none-any.whl (44kB)
+2018-10-24T05:30:02.000Z /container_e271_1538777410028_14494_03_000002: Collecting protobuf>=3.6.0 (from tensorflow)
+2018-10-24T05:30:02.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/c2/f9/28787754923612ca9bfdffc588daa05580ed70698add063a5629d1a4209d/protobuf-3.6.1-cp36-cp36m-manylinux1_x86_64.whl (1.1MB)
+2018-10-24T05:30:02.000Z /container_e271_1538777410028_14494_03_000002: Requirement already satisfied: six>=1.10.0 in /opt/conda/lib/python3.6/site-packages (from tensorflow) (1.11.0)
+2018-10-24T05:30:02.000Z /container_e271_1538777410028_14494_03_000002: Collecting astor>=0.6.0 (from tensorflow)
+2018-10-24T05:30:02.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/35/6b/11530768cac581a12952a2aad00e1526b89d242d0b9f59534ef6e6a1752f/astor-0.7.1-py2.py3-none-any.whl
+2018-10-24T05:30:02.000Z /container_e271_1538777410028_14494_03_000002: Collecting absl-py>=0.1.6 (from tensorflow)
+2018-10-24T05:30:02.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/fa/ef/1fa0376563b1e0495301ada8e881d88b7ebfda433f6b31f44447fe6ef795/absl-py-0.6.0.tar.gz (93kB)
+2018-10-24T05:30:03.000Z /container_e271_1538777410028_14494_03_000002: Collecting markdown>=2.6.8 (from tensorboard)
+2018-10-24T05:30:03.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/7a/6b/5600647404ba15545ec37d2f7f58844d690baf2f81f3a60b862e48f29287/Markdown-3.0.1-py2.py3-none-any.whl (89kB)
+2018-10-24T05:30:03.000Z /container_e271_1538777410028_14494_03_000002: Requirement already satisfied: werkzeug>=0.11.10 in /opt/conda/lib/python3.6/site-packages (from tensorboard) (0.14.1)
+2018-10-24T05:30:03.000Z /container_e271_1538777410028_14494_03_000002: Requirement already satisfied: h5py in /opt/conda/lib/python3.6/site-packages (from keras-applications>=1.0.5->tensorflow) (2.7.1)
+2018-10-24T05:30:03.000Z /container_e271_1538777410028_14494_03_000002: Building wheels for collected packages: gast, termcolor, absl-py
+2018-10-24T05:30:03.000Z /container_e271_1538777410028_14494_03_000002:   Running setup.py bdist_wheel for gast: started
+2018-10-24T05:30:03.000Z /container_e271_1538777410028_14494_03_000002:   Running setup.py bdist_wheel for gast: finished with status 'done'
+2018-10-24T05:30:03.000Z /container_e271_1538777410028_14494_03_000002:   Stored in directory: /home/hasalman/.cache/pip/wheels/9a/1f/0e/3cde98113222b853e98fc0a8e9924480a3e25f1b4008cedb4f
+2018-10-24T05:30:03.000Z /container_e271_1538777410028_14494_03_000002:   Running setup.py bdist_wheel for termcolor: started
+2018-10-24T05:30:04.000Z /container_e271_1538777410028_14494_03_000002:   Running setup.py bdist_wheel for termcolor: finished with status 'done'
+2018-10-24T05:30:04.000Z /container_e271_1538777410028_14494_03_000002:   Stored in directory: /home/hasalman/.cache/pip/wheels/7c/06/54/bc84598ba1daf8f970247f550b175aaaee85f68b4b0c5ab2c6
+2018-10-24T05:30:04.000Z /container_e271_1538777410028_14494_03_000002:   Running setup.py bdist_wheel for absl-py: started
+2018-10-24T05:30:04.000Z /container_e271_1538777410028_14494_03_000002:   Running setup.py bdist_wheel for absl-py: finished with status 'done'
+2018-10-24T05:30:04.000Z /container_e271_1538777410028_14494_03_000002:   Stored in directory: /home/hasalman/.cache/pip/wheels/91/3f/fc/04598e99d64928bec676e07245b132e985df067cf5d469c460
+2018-10-24T05:30:04.000Z /container_e271_1538777410028_14494_03_000002: Successfully built gast termcolor absl-py
+2018-10-24T05:30:08.000Z /container_e271_1538777410028_14494_03_000002: tensorflow 1.11.0 has requirement tensorboard<1.12.0,>=1.11.0, but you'll have tensorboard 1.12.0 which is incompatible.
+2018-10-24T05:30:08.000Z /container_e271_1538777410028_14494_03_000002: Installing collected packages: keras-preprocessing, grpcio, gast, termcolor, markdown, protobuf, tensorboard, keras-applications, astor, absl-py, tensorflow
+2018-10-24T05:30:08.000Z /container_e271_1538777410028_14494_03_000002:   The script markdown_py is installed in '/home/hasalman/.local/bin' which is not on PATH.
+2018-10-24T05:30:08.000Z /container_e271_1538777410028_14494_03_000002:   Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+2018-10-24T05:30:09.000Z /container_e271_1538777410028_14494_03_000002:   The script tensorboard is installed in '/home/hasalman/.local/bin' which is not on PATH.
+2018-10-24T05:30:09.000Z /container_e271_1538777410028_14494_03_000002:   Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+2018-10-24T05:30:15.000Z /container_e271_1538777410028_14494_03_000002:   The scripts freeze_graph, saved_model_cli, tensorboard, tflite_convert, toco and toco_from_protos are installed in '/home/hasalman/.local/bin' which is not on PATH.
+2018-10-24T05:30:15.000Z /container_e271_1538777410028_14494_03_000002:   Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+2018-10-24T05:30:15.000Z /container_e271_1538777410028_14494_03_000002: Successfully installed absl-py-0.6.0 astor-0.7.1 gast-0.2.0 grpcio-1.16.0 keras-applications-1.0.6 keras-preprocessing-1.0.5 markdown-3.0.1 protobuf-3.6.1 tensorboard-1.12.0 tensorflow-1.11.0 termcolor-1.1.0
+2018-10-24T05:30:16.000Z /container_e271_1538777410028_14494_03_000002: Collecting tensorboardX
+2018-10-24T05:30:16.000Z /container_e271_1538777410028_14494_03_000002:   Downloading https://files.pythonhosted.org/packages/b1/d2/e08fe62f3554fbba081e80f6b23128df53b2f74ed4dcde73ec4a84dc53fb/tensorboardX-1.4-py2.py3-none-any.whl (67kB)
+2018-10-24T05:30:17.000Z /container_e271_1538777410028_14494_03_000002: Requirement already satisfied: numpy in /opt/conda/lib/python3.6/site-packages (from tensorboardX) (1.14.2)
+2018-10-24T05:30:17.000Z /container_e271_1538777410028_14494_03_000002: Requirement already satisfied: six in /opt/conda/lib/python3.6/site-packages (from tensorboardX) (1.11.0)
+2018-10-24T05:30:17.000Z /container_e271_1538777410028_14494_03_000002: Requirement already satisfied: protobuf>=3.2.0 in /home/hasalman/.local/lib/python3.6/site-packages (from tensorboardX) (3.6.1)
+2018-10-24T05:30:17.000Z /container_e271_1538777410028_14494_03_000002: Requirement already satisfied: setuptools in /opt/conda/lib/python3.6/site-packages (from protobuf>=3.2.0->tensorboardX) (38.4.0)
+2018-10-24T05:30:17.000Z /container_e271_1538777410028_14494_03_000002: Installing collected packages: tensorboardX
+2018-10-24T05:30:17.000Z /container_e271_1538777410028_14494_03_000002: Successfully installed tensorboardX-1.4

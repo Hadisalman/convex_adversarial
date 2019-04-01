@@ -1,0 +1,117 @@
+exp_name: verifying_cmu_networks_run2
+description: Job for CMU robust verification code
+timestamp: '2018-10-24T09:00:13.169910+00:00'
+auth:
+  cluster: gcr
+  vc: msrlabs
+  docker:
+    image: hadisalman/test:latest
+code:
+  code_upload: true
+  local_dir: /home/hasalman/src/adversarial/convex_adversarial
+  remote_dir: pt-code/9b909a60-895c-4d97-9f3e-64fb6de25556/pt-code.zip@
+data:
+  data_upload: false
+  local_dir: /home/hasalman/src/adversarial/convex_adversarial/data
+  remote_dir: data
+jobs:
+- name: job_small
+  sku: G1
+  sku_count: 1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX
+  - python examples/verify_network.py --model small
+  id: application_1538777410028_14806
+  results_dir: /hdfs/msrlabs/sys/jobs/application_1538777410028_14806/models
+  type: bash
+- name: job_large
+  sku: G1
+  sku_count: 1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX
+  - python examples/verify_network.py --model large
+  id: application_1538777410028_14805
+  results_dir: /hdfs/msrlabs/sys/jobs/application_1538777410028_14805/models
+  type: bash
+- name: job_wide_1
+  sku: G1
+  sku_count: 1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX
+  - python examples/verify_network.py --model wide --model_factor  1
+  id: application_1538777410028_14809
+  results_dir: /hdfs/msrlabs/sys/jobs/application_1538777410028_14809/models
+  type: bash
+- name: job_wide_2
+  sku: G1
+  sku_count: 1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX
+  - python examples/verify_network.py --model wide --model_factor  2
+  id: application_1538777410028_14810
+  results_dir: /hdfs/msrlabs/sys/jobs/application_1538777410028_14810/models
+  type: bash
+- name: job_wide_4
+  sku: G1
+  sku_count: 1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX
+  - python examples/verify_network.py --model wide --model_factor  4
+  id: application_1538777410028_14811
+  results_dir: /hdfs/msrlabs/sys/jobs/application_1538777410028_14811/models
+  type: bash
+- name: job_wide_8
+  sku: G1
+  sku_count: 1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX
+  - python examples/verify_network.py --model wide --model_factor  8
+  id: application_1538777410028_14804
+  results_dir: /hdfs/msrlabs/sys/jobs/application_1538777410028_14804/models
+  type: bash
+- name: job_wide_16
+  sku: G1
+  sku_count: 1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX
+  - python examples/verify_network.py --model wide --model_factor  16
+  id: application_1538777410028_14812
+  results_dir: /hdfs/msrlabs/sys/jobs/application_1538777410028_14812/models
+  type: bash
+- name: job_deep_1
+  sku: G1
+  sku_count: 1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX
+  - python examples/verify_network.py --model deep --model_factor  1
+  id: application_1538777410028_14807
+  results_dir: /hdfs/msrlabs/sys/jobs/application_1538777410028_14807/models
+  type: bash
+- name: job_deep_2
+  sku: G1
+  sku_count: 1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX
+  - python examples/verify_network.py --model deep --model_factor  2
+  id: application_1538777410028_14803
+  results_dir: /hdfs/msrlabs/sys/jobs/application_1538777410028_14803/models
+  type: bash
+- name: job_deep_3
+  sku: G1
+  sku_count: 1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX
+  - python examples/verify_network.py --model deep --model_factor  3
+  id: application_1538777410028_14808
+  results_dir: /hdfs/msrlabs/sys/jobs/application_1538777410028_14808/models
+  type: bash

@@ -14,7 +14,7 @@ cudnn.benchmark = True
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 import random
-    
+
 import setproctitle
 
 import problems as pblm
@@ -22,6 +22,7 @@ from trainer import *
 
 import math
 import numpy
+import os 
 
 def select_model(m): 
     if m == 'large': 
@@ -29,22 +30,31 @@ def select_model(m):
         model = pblm.cifar_model_large().cuda()
     elif m == 'resnet': 
         model = pblm.cifar_model_resnet(N=args.resnet_N, factor=args.resnet_factor).cuda()
-    else: 
+    elif m == 'small': 
         model = pblm.cifar_model().cuda() 
+    elif m =='cifar_wide_1':
+        model = pblm.cifar_wide_1().cuda()
+    elif m =='cifar_wide_2':
+        model = pblm.cifar_wide_2().cuda()
+    elif m =='cifar_wide_4':
+        model = pblm.cifar_wide_4().cuda()
+    elif m =='cifar_deep_1':
+        model = pblm.cifar_deep_1().cuda()
+
     return model
 
-if __name__ == "__main__": 
-    args = pblm.argparser(epsilon = 0.0347, starting_epsilon=0.001, batch_size = 50, 
+if __name__ == "__main__":
+    args = pblm.argparser(epsilon=0.03137, starting_epsilon=0.001, batch_size=50, 
                 opt='sgd', lr=0.05)
 
     print("saving file to {}".format(args.prefix))
     setproctitle.setproctitle(args.prefix)
 
-    train_log = open(args.prefix + "_train.log", "w")
-    test_log = open(args.prefix + "_test.log", "w")
+    train_log = open(os.path.join(args.output_dir, args.prefix + "_train.log"), "w")
+    test_log = open(os.path.join(args.output_dir, args.prefix + "_test.log"), "w")
 
     train_loader, _ = pblm.cifar_loaders(args.batch_size)
-    _, test_loader = pblm.cifar_loaders(args.test_batch_size)
+    _, test_loader = pblm.cifar_loaders(1)
 
     torch.manual_seed(args.seed)
     torch.cuda.manual_seed_all(args.seed)
@@ -53,7 +63,7 @@ if __name__ == "__main__":
 
     sampler_indices = []
     model = [select_model(args.model)]
-    embed()
+    # embed()
     kwargs = pblm.args2kwargs(args)
     best_err = 1
 
@@ -97,9 +107,9 @@ if __name__ == "__main__":
             # standard training
             if args.method == 'baseline': 
                 train_baseline(train_loader, model[0], opt, t, train_log,
-                                args.verbose)
+                                verbose=args.verbose)
                 err = evaluate_baseline(test_loader, model[0], t, test_log,
-                                args.verbose)
+                                verbose=args.verbose)
 
             # madry training
             elif args.method=='madry':
@@ -122,11 +132,11 @@ if __name__ == "__main__":
             # robust training
             else:
                 train_robust(train_loader, model[0], opt, epsilon, t,
-                   train_log, args.verbose, args.real_time,
+                   train_log, verbose=args.verbose, real_time=args.real_time,
                    norm_type=args.norm_train, bounded_input=False, clip_grad=1,
                    **kwargs)
                 err = evaluate_robust(test_loader, model[0], args.epsilon, t,
-                   test_log, args.verbose, args.real_time,
+                   test_log, verbose=args.verbose, real_time=args.real_time,
                    norm_type=args.norm_test, bounded_input=False, 
                    **kwargs)
             
@@ -137,11 +147,11 @@ if __name__ == "__main__":
                     'err' : best_err,
                     'epoch' : t,
                     'sampler_indices' : sampler_indices
-                    }, args.prefix + "_best.pth")
+                    }, os.path.join(args.output_dir, args.prefix + "_best.pth"))
                 
             torch.save({ 
                 'state_dict': [m.state_dict() for m in model],
                 'err' : err,
                 'epoch' : t,
                 'sampler_indices' : sampler_indices
-                }, args.prefix + "_checkpoint.pth")
+                }, os.path.join(args.output_dir, args.prefix + "_checkpoint.pth"))

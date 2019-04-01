@@ -1,0 +1,545 @@
+diff --git examples/cifar.py examples/cifar.py
+index 4a76139..7a8ae7d 100644
+--- examples/cifar.py
++++ examples/cifar.py
+@@ -22,6 +22,7 @@ from trainer import *
+ 
+ import math
+ import numpy
++import os 
+ 
+ def select_model(m): 
+     if m == 'large': 
+@@ -29,19 +30,20 @@ def select_model(m):
+         model = pblm.cifar_model_large().cuda()
+     elif m == 'resnet': 
+         model = pblm.cifar_model_resnet(N=args.resnet_N, factor=args.resnet_factor).cuda()
+-    else: 
++    elif m == 'small': 
+         model = pblm.cifar_model().cuda() 
++    
+     return model
+ 
+ if __name__ == "__main__": 
+-    args = pblm.argparser(epsilon = 0.0347, starting_epsilon=0.001, batch_size = 50, 
++    args = pblm.argparser(epsilon = 0.03137, starting_epsilon=0.001, batch_size = 50, 
+                 opt='sgd', lr=0.05)
+ 
+     print("saving file to {}".format(args.prefix))
+     setproctitle.setproctitle(args.prefix)
+ 
+-    train_log = open(args.prefix + "_train.log", "w")
+-    test_log = open(args.prefix + "_test.log", "w")
++    train_log = open(os.path.join(args.output_dir, args.prefix + "_train.log"), "w")
++    test_log = open(os.path.join(args.output_dir, args.prefix + "_test.log"), "w")
+ 
+     train_loader, _ = pblm.cifar_loaders(args.batch_size)
+     _, test_loader = pblm.cifar_loaders(args.test_batch_size)
+@@ -53,7 +55,7 @@ if __name__ == "__main__":
+ 
+     sampler_indices = []
+     model = [select_model(args.model)]
+-    embed()
++    # embed()
+     kwargs = pblm.args2kwargs(args)
+     best_err = 1
+ 
+@@ -97,9 +99,9 @@ if __name__ == "__main__":
+             # standard training
+             if args.method == 'baseline': 
+                 train_baseline(train_loader, model[0], opt, t, train_log,
+-                                args.verbose)
++                                verbose=args.verbose)
+                 err = evaluate_baseline(test_loader, model[0], t, test_log,
+-                                args.verbose)
++                                verbose=args.verbose)
+ 
+             # madry training
+             elif args.method=='madry':
+@@ -122,11 +124,11 @@ if __name__ == "__main__":
+             # robust training
+             else:
+                 train_robust(train_loader, model[0], opt, epsilon, t,
+-                   train_log, args.verbose, args.real_time,
++                   train_log, verbose=args.verbose, real_time=args.real_time,
+                    norm_type=args.norm_train, bounded_input=False, clip_grad=1,
+                    **kwargs)
+                 err = evaluate_robust(test_loader, model[0], args.epsilon, t,
+-                   test_log, args.verbose, args.real_time,
++                   test_log, verbose=args.verbose, real_time=args.real_time,
+                    norm_type=args.norm_test, bounded_input=False, 
+                    **kwargs)
+             
+@@ -137,11 +139,11 @@ if __name__ == "__main__":
+                     'err' : best_err,
+                     'epoch' : t,
+                     'sampler_indices' : sampler_indices
+-                    }, args.prefix + "_best.pth")
++                    }, os.path.join(args.output_dir, args.prefix + "_best.pth"))
+                 
+             torch.save({ 
+                 'state_dict': [m.state_dict() for m in model],
+                 'err' : err,
+                 'epoch' : t,
+                 'sampler_indices' : sampler_indices
+-                }, args.prefix + "_checkpoint.pth")
++                }, os.path.join(args.output_dir, args.prefix + "_checkpoint.pth"))
+diff --git examples/mnist.py examples/mnist.py
+index 7b90494..ca6f171 100644
+--- examples/mnist.py
++++ examples/mnist.py
+@@ -27,27 +27,48 @@ import os
+ from IPython import embed
+ 
+ def select_model(m): 
+-    if m == 'large': 
++    if m == 'large':
+         model = pblm.mnist_model_large().cuda()
+-        _, test_loader = pblm.mnist_loaders(8)
++        _, test_loader = pblm.mnist_loaders(8, data_directory=args.data_dir)
++
+     elif m == 'wide': 
+         print("Using wide model with model_factor={}".format(args.model_factor))
+-        _, test_loader = pblm.mnist_loaders(64//args.model_factor)
++        _, test_loader = pblm.mnist_loaders(64//args.model_factor, data_directory=args.data_dir)
+         model = pblm.mnist_model_wide(args.model_factor).cuda()
+-    elif m == 'deep': 
++
++    elif m == 'deep':
+         print("Using deep model with model_factor={}".format(args.model_factor))
+-        _, test_loader = pblm.mnist_loaders(64//(2**args.model_factor))
++        _, test_loader = pblm.mnist_loaders(64//(2**args.model_factor), data_directory=args.data_dir)
+         model = pblm.mnist_model_deep(args.model_factor).cuda()
+-    else: 
++
++    elif m == 'small':
+         model = pblm.mnist_model().cuda()
+-    embed() 
++
++    elif m == 'layers2_nodes10':
++        model = pblm.layers2_nodes10(784).cuda()
++
++    elif m == 'layers2_nodes100':
++        model = pblm.layers2_nodes100(784).cuda()
++
++    elif m == 'layers10_nodes100':
++        model = pblm.layers10_nodes100(784).cuda()
++
++    elif m == 'layers10_nodes500':
++        model = pblm.layers10_nodes500(784).cuda()
++
++    elif m == 'layers10_nodes1000':
++        model = pblm.layers10_nodes1000(784).cuda()
++
++    elif m == 'layers10_nodes5000':
++        model = pblm.layers10_nodes5000(784).cuda()
++
+     return model
+ 
+ 
+ if __name__ == "__main__": 
+     args = pblm.argparser(opt='adam', verbose=200, starting_epsilon=0.01)
+     
+-    writer = SummaryWriter(os.path.join(args.output_dir, args.prefix))
++    # writer = SummaryWriter(os.path.join(args.output_dir, args.prefix))
+ 
+     print("saving file to {}".format(args.prefix))
+     setproctitle.setproctitle(args.prefix)
+@@ -102,13 +123,12 @@ if __name__ == "__main__":
+             else:
+                 epsilon = args.epsilon
+ 
+-
+             # standard training
+             if args.method == 'baseline': 
+                 train_baseline(train_loader, model[0], opt, t, train_log,
+-                                args.verbose)
++                                verbose=args.verbose)
+                 err = evaluate_baseline(test_loader, model[0], t, test_log,
+-                                args.verbose)
++                                verbose=args.verbose)
+ 
+             # madry training
+             elif args.method=='madry':
+@@ -130,25 +150,36 @@ if __name__ == "__main__":
+             # robust training
+             else:
+                 train_robust(train_loader, model[0], opt, epsilon, t,
+-                   train_log, args.verbose, args.real_time,
++                   train_log, verbose=args.verbose, real_time=args.real_time,
+                    norm_type=args.norm_train, bounded_input=True, **kwargs)
+                 err = evaluate_robust(test_loader, model[0], args.epsilon,
+                    t, test_log, args.verbose, args.real_time,
+                    norm_type=args.norm_test, bounded_input=True, **kwargs)
+             
+             if err < best_err: 
+-                best_err = err
+-                torch.save({
+-                    'state_dict' : [m.state_dict() for m in model], 
+-                    'err' : best_err,
+-                    'epoch' : t,
+-                    'sampler_indices' : sampler_indices
+-                    }, os.path.join(args.output_dir, args.prefix + "_best.pth"))
+-                
+-            torch.save({ 
+-                'state_dict': [m.state_dict() for m in model],
+-                'err' : err,
+-                'epoch' : t,
+-                'sampler_indices' : sampler_indices
+-                }, os.path.join(args.output_dir, args.prefix + "_checkpoint.pth"))
+-    writer.close()
+\ No newline at end of file
++                while True:
++                    try:
++                        best_err = err
++                        torch.save({
++                            'state_dict' : [m.state_dict() for m in model], 
++                            'err' : best_err,
++                            'epoch' : t,
++                            'sampler_indices' : sampler_indices
++                            }, os.path.join(args.output_dir, args.prefix + "_best.pth"))
++                        break
++                    except Exception as e:
++                        print(e)
++            while True:
++                try:
++                    torch.save({ 
++                        'state_dict': [m.state_dict() for m in model],
++                        'err' : err,
++                        'epoch' : t,
++                        'sampler_indices' : sampler_indices
++                        }, os.path.join(args.output_dir, args.prefix + "_checkpoint.pth"))
++                    break
++                except Exception as e:
++                    print(e)
++
++
++    # writer.close()
+\ No newline at end of file
+diff --git examples/problems.py examples/problems.py
+index 5793295..5e609f4 100644
+--- examples/problems.py
++++ examples/problems.py
+@@ -13,6 +13,131 @@ from convex_adversarial import Dense, DenseSequential
+ import math
+ import os
+ 
++
++def layers2_nodes10(input_dim):
++    net = nn.Sequential(
++        Flatten(),
++        nn.Linear(input_dim,10),
++        nn.ReLU(),
++        nn.Linear(10,10),
++        nn.ReLU(),
++        nn.Linear(10,10)
++    )
++    return net
++
++def layers2_nodes100(input_dim):
++    net = nn.Sequential(
++        Flatten(),
++        nn.Linear(input_dim,100),
++        nn.ReLU(),
++        nn.Linear(100,100),
++        nn.ReLU(),
++        nn.Linear(100,10)
++    )
++    return net
++
++def layers10_nodes100(input_dim):
++    net = nn.Sequential(
++        Flatten(),
++        nn.Linear(input_dim,100),
++        nn.ReLU(),
++        nn.Linear(100,100),
++        nn.ReLU(),
++        nn.Linear(100,100),
++        nn.ReLU(),
++        nn.Linear(100,100),
++        nn.ReLU(),
++        nn.Linear(100,100),
++        nn.ReLU(),
++        nn.Linear(100,100),
++        nn.ReLU(),
++        nn.Linear(100,100),
++        nn.ReLU(),
++        nn.Linear(100,100),
++        nn.ReLU(),
++        nn.Linear(100,100),
++        nn.ReLU(),
++        nn.Linear(100,10)
++    )
++    return net
++
++
++def layers10_nodes500(input_dim):
++    net = nn.Sequential(
++        Flatten(),
++        nn.Linear(input_dim,500),
++        nn.ReLU(),
++        nn.Linear(500,500),
++        nn.ReLU(),
++        nn.Linear(500,500),
++        nn.ReLU(),
++        nn.Linear(500,500),
++        nn.ReLU(),
++        nn.Linear(500,500),
++        nn.ReLU(),
++        nn.Linear(500,500),
++        nn.ReLU(),
++        nn.Linear(500,500),
++        nn.ReLU(),
++        nn.Linear(500,500),
++        nn.ReLU(),
++        nn.Linear(500,500),
++        nn.ReLU(),
++        nn.Linear(500,10)
++    )
++    return net
++
++
++def layers10_nodes1000(input_dim):
++    net = nn.Sequential(
++        Flatten(),
++        nn.Linear(input_dim,1000),
++        nn.ReLU(),
++        nn.Linear(1000,1000),
++        nn.ReLU(),
++        nn.Linear(1000,1000),
++        nn.ReLU(),
++        nn.Linear(1000,1000),
++        nn.ReLU(),
++        nn.Linear(1000,1000),
++        nn.ReLU(),
++        nn.Linear(1000,1000),
++        nn.ReLU(),
++        nn.Linear(1000,1000),
++        nn.ReLU(),
++        nn.Linear(1000,1000),
++        nn.ReLU(),
++        nn.Linear(1000,1000),
++        nn.ReLU(),
++        nn.Linear(1000,10)
++    )
++    return net
++
++def layers10_nodes5000(input_dim):
++    net = nn.Sequential(
++        Flatten(),
++        nn.Linear(input_dim,5000),
++        nn.ReLU(),
++        nn.Linear(5000,5000),
++        nn.ReLU(),
++        nn.Linear(5000,5000),
++        nn.ReLU(),
++        nn.Linear(5000,5000),
++        nn.ReLU(),
++        nn.Linear(5000,5000),
++        nn.ReLU(),
++        nn.Linear(5000,5000),
++        nn.ReLU(),
++        nn.Linear(5000,5000),
++        nn.ReLU(),
++        nn.Linear(5000,5000),
++        nn.ReLU(),
++        nn.Linear(5000,5000),
++        nn.ReLU(),
++        nn.Linear(5000,10)
++    )
++    return net
++
+ def model_wide(in_ch, out_width, k): 
+     model = nn.Sequential(
+         nn.Conv2d(in_ch, 4*k, 4, stride=2, padding=1),
+diff --git examples/trainer.py examples/trainer.py
+index 3333455..1cd1b1e 100644
+--- examples/trainer.py
++++ examples/trainer.py
+@@ -14,7 +14,7 @@ from attacks import _pgd
+ DEBUG = False
+ 
+ from IPython import embed
+-def train_robust(loader, model, opt, epsilon, epoch, log, writer, verbose, 
++def train_robust(loader, model, opt, epsilon, epoch, log, writer=None, verbose=None, 
+                 real_time=False, clip_grad=None, **kwargs):
+     batch_time = AverageMeter()
+     data_time = AverageMeter()
+@@ -78,10 +78,11 @@ def train_robust(loader, model, opt, epsilon, epoch, log, writer, verbose,
+                    data_time=data_time, loss=losses, errors=errors, 
+                    rloss = robust_losses, rerrors = robust_errors), end=endline)
+         log.flush()
+-        writer.add_scalar('train/Robust loss', robust_losses.val, iteration)
+-        writer.add_scalar('train/Robust error', robust_errors.val, iteration)
+-        writer.add_scalar('train/loss', losses.val, iteration)
+-        writer.add_scalar('train/error', errors.val, iteration)
++        if writer is not None:
++            writer.add_scalar('train/Robust loss', robust_losses.val, iteration)
++            writer.add_scalar('train/Robust error', robust_errors.val, iteration)
++            writer.add_scalar('train/loss', losses.val, iteration)
++            writer.add_scalar('train/error', errors.val, iteration)
+ 
+         del X, y, robust_ce, out, ce, err, robust_err
+         if DEBUG and i ==10: 
+@@ -163,7 +164,7 @@ def evaluate_robust(loader, model, epsilon, epoch=None, log=None, verbose=None,
+           .format(rerror=robust_errors, error=errors))
+     return robust_errors.avg
+ 
+-def train_baseline(loader, model, opt, epoch, log, writer, verbose):
++def train_baseline(loader, model, opt, epoch, log, writer=None, verbose=None):
+     batch_time = AverageMeter()
+     data_time = AverageMeter()
+     losses = AverageMeter()
+@@ -206,9 +207,10 @@ def train_baseline(loader, model, opt, epoch, log, writer, verbose):
+                    accuracy=accuracy))
+ 
+         log.flush()
+-        writer.add_scalar('train/loss', losses.val, iteration)
+-        writer.add_scalar('train/error', errors.val, iteration)
+-        writer.add_scalar('train/accuracy', accuracy.val, iteration)
++        if writer is not None:
++            writer.add_scalar('train/loss', losses.val, iteration)
++            writer.add_scalar('train/error', errors.val, iteration)
++            writer.add_scalar('train/accuracy', accuracy.val, iteration)
+ 
+ 
+ def evaluate_baseline(loader, model, epoch=None, log=None, verbose=None, writer=None):
+diff --git examples/verify_network.py examples/verify_network.py
+index 56d0c31..a4eb7fd 100644
+--- examples/verify_network.py
++++ examples/verify_network.py
+@@ -59,9 +59,9 @@ def select_model(args):
+ 
+ 		model = nn.Sequential(pblm.Flatten(),
+ 							  nn.Linear(w1.shape[0],w1.shape[1]),
+-					          nn.ReLU(),
+-					          nn.Linear(w2.shape[0],w2.shape[1])
+-					          )
++							  nn.ReLU(),
++							  nn.Linear(w2.shape[0],w2.shape[1])
++							  )
+ 		model[1].weight.data = torch.Tensor(w1).t()
+ 		model[1].bias.data = torch.Tensor(b1)
+ 		model[3].weight.data = torch.Tensor(w2).t()
+@@ -70,11 +70,48 @@ def select_model(args):
+ 		_,test_loader = pblm.mnist_loaders(args.batch_size, 
+ 										data_directory=args.data_dir)
+ 
+-	else:
++	elif m == 'small':
+ 		model = pblm.mnist_model().cuda()
+ 		_,test_loader = pblm.mnist_loaders(args.batch_size, 
+ 										data_directory=args.data_dir)
+-		
++		path = '../models_scaled/mnist_small_0_1.pth'
++	
++	elif m == 'layers2_nodes10':
++		model = pblm.layers2_nodes10(784).cuda()
++		_,test_loader = pblm.mnist_loaders(args.batch_size, 
++										data_directory=args.data_dir)
++
++	elif m == 'layers2_nodes100':
++		model = pblm.layers2_nodes100(784).cuda()
++		_,test_loader = pblm.mnist_loaders(args.batch_size, 
++										data_directory=args.data_dir)
++
++	elif m == 'layers10_nodes100':
++		model = pblm.layers10_nodes100(784).cuda()
++		_,test_loader = pblm.mnist_loaders(args.batch_size, 
++										data_directory=args.data_dir)
++
++	elif m == 'layers10_nodes500':
++		model = pblm.layers10_nodes500(784).cuda()
++		_,test_loader = pblm.mnist_loaders(args.batch_size, 
++										data_directory=args.data_dir)
++
++	elif m == 'layers10_nodes1000':
++		model = pblm.layers10_nodes1000(784).cuda()
++		_,test_loader = pblm.mnist_loaders(args.batch_size, 
++										data_directory=args.data_dir)
++
++	elif m == 'layers10_nodes5000':
++		model = pblm.layers10_nodes5000(784).cuda()
++		_,test_loader = pblm.mnist_loaders(args.batch_size, 
++										data_directory=args.data_dir)		
++
++	if args.load:
++		# checkpoint = torch.load('./master_seed_1_epochs_100.pth')
++		checkpoint = torch.load(path)['state_dict'][0]
++		embed()
++		model.load_state_dict(checkpoint)
++		# best_epoch = checkpoint['epoch']
+ 
+ 	return model, test_loader
+ 
+@@ -82,9 +119,9 @@ def select_model(args):
+ if __name__ == "__main__": 
+ 	args = pblm.argparser(opt='adam', verbose=200)
+ 	
+-	writer = SummaryWriter(os.path.join(args.output_dir, "normal"))
+-	writer_madry = SummaryWriter(os.path.join(args.output_dir, "madry"))
+-	writer_wong = SummaryWriter(os.path.join(args.output_dir, "wong"))
++	# writer = SummaryWriter(os.path.join(args.output_dir, "normal"))
++	# writer_madry = SummaryWriter(os.path.join(args.output_dir, "madry"))
++	# writer_wong = SummaryWriter(os.path.join(args.output_dir, "wong"))
+ 
+ 	print("saving file to {}".format(args.prefix))
+ 	setproctitle.setproctitle(args.prefix)
+@@ -105,14 +142,10 @@ if __name__ == "__main__":
+ 	# The test_loader's batch_size varies with the model size for CUDA memory issues  
+ 	model, test_loader = select_model(args)
+ 		
+-	if args.load:
+-		checkpoint = torch.load('./master_seed_1_epochs_100.pth')
+-		model.load_state_dict(checkpoint)
+-		# best_epoch = checkpoint['epoch']
+ 	best_err = evaluate_baseline(test_loader, model, verbose=False)
+ 	print('best error: ', best_err)
+-	embed()
+-
++	# embed()
++	t = 0 
+ 	if args.train:
+ 		if args.opt == 'adam': 
+ 			opt = optim.Adam(model.parameters(), lr=args.lr)
+@@ -125,7 +158,7 @@ if __name__ == "__main__":
+ 
+ 		for t in range(args.epochs):
+ 			train_baseline(train_loader, model, opt, t, train_log,
+-							writer, args.verbose)
++							verbose=args.verbose)
+ 			err = evaluate_baseline(test_loader, model, t, test_log, 
+ 								args.verbose)
+ 
+@@ -147,8 +180,9 @@ if __name__ == "__main__":
+ 		# load best model
+ 		model.load_state_dict(best_model_state_dict)
+ 
+-	embed()
++	# embed()
+ 	epsilons = np.linspace(1e-1, 1e-3, num=20)
++	epsilons = [0.1]
+ 	for it, epsilon in enumerate(epsilons):
+ 		err_madry = evaluate_madry(test_loader, model, epsilon, 
+ 							 t, test_log, args.verbose)
+@@ -157,10 +191,11 @@ if __name__ == "__main__":
+ 		   t, test_log, args.verbose, args.real_time,
+ 		   norm_type=args.norm_test, bounded_input=True, **kwargs)
+ 		
+-		writer.add_scalar('verification/error', err, it)   
+-		writer_madry.add_scalar('verification/error', err_madry, it)   
+-		writer_wong.add_scalar('verification/error', err_wong, it)   
+-
+-	writer.close()
+-	writer_madry.close()
+-	writer_wong.close()
+\ No newline at end of file
++		# print('err_madry')
++		# writer.add_scalar('verification/error', err, it)   
++		# writer_madry.add_scalar('verification/error', err_madry, it)   
++		# writer_wong.add_scalar('verification/error', err_wong, it)   
++
++	# writer.close()
++	# writer_madry.close()
++	# writer_wong.close()
+\ No newline at end of file

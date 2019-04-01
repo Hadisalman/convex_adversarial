@@ -15,9 +15,6 @@ def select_cifar_model(m, pretrained=False):
 		# raise ValueError
 		model = pblm.cifar_model_large().cuda()
 
-	elif m== 'small': 
-		model = pblm.cifar_model().cuda() 
-
 ##################
 
 	elif m == 'resnet':
@@ -117,6 +114,23 @@ def select_cifar_model(m, pretrained=False):
 		print("Using DenseNet201 model modified for the cifar dataset")
 		model = nn.DataParallel(DenseNet201().cuda())
 
+#################
+
+	elif m == 'small': 
+		model = pblm.cifar_model().cuda() 
+
+	elif m =='cifar_wide_1':
+		model = pblm.cifar_wide_1().cuda()
+
+	elif m =='cifar_wide_2':
+		model = pblm.cifar_wide_2().cuda()
+
+	elif m =='cifar_wide_4':
+		model = pblm.cifar_wide_4().cuda()
+
+	elif m =='cifar_deep_1':
+		model = pblm.cifar_deep_1().cuda()
+##################
 	else:
 		raise Exception('Please specify a valid model.')
 	return model

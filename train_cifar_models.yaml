@@ -1,0 +1,153 @@
+description: Training cifar models (madry, cmu, normal)
+
+auth:
+  # which virtual cluster you belong to (msrlabs, etc.). Everyone has access to "pnrsy".
+  vc: msrlabs
+  # physical cluster to use (cam, gcr, rr1, rr2) or Azure clusters (eu1, eu2, etc.)
+  cluster: rr1
+  docker:
+    image: hadisalman/cmu_code:latest
+
+code:
+  # local directory of the code. this will be uploaded to the server.
+  # $CONFIG_DIR is expanded to the directory of this config file
+  code_upload: true
+  local_dir: $CONFIG_DIR
+
+data:
+#   data upload is not required for this example
+  data_upload: true
+  local_dir: $CONFIG_DIR/data
+  remote_dir: data
+
+# list of jobs to run, we run 2 jobs in this example
+jobs:
+  # name must be unique across the jobs
+- name: job_baseline_small
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model small --method baseline
+
+- name: job_baseline_wide_1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_wide_1 --method baseline
+
+- name: job_baseline_wide_2
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_wide_2 --method baseline 
+
+- name: job_baseline_wide_4
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_wide_4 --method baseline
+
+- name: job_baseline_deep_1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_deep_1 --method baseline
+
+
+
+
+- name: job_madry_small
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model small --method madry 
+
+- name: job_madry_wide_1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_wide_1 --method madry
+
+- name: job_madry_wide_2
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_wide_2 --method madry 
+
+- name: job_madry_wide_4
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_wide_4 --method madry
+
+- name: job_madry_deep_1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_deep_1 --method madry
+
+
+
+
+
+
+
+- name: job_robust_small
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model small --method robust 
+
+- name: job_robust_wide_1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_wide_1 --method robust
+
+- name: job_robust_wide_2
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_wide_2 --method robust 
+
+- name: job_robust_wide_4
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_wide_4 --method robust
+
+- name: job_robust_deep_1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/cifar.py --model cifar_deep_1 --method robust

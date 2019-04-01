@@ -1,0 +1,107 @@
+description: Training mnist models (madry, cmu, normal)
+
+auth:
+  # which virtual cluster you belong to (msrlabs, etc.). Everyone has access to "pnrsy".
+  vc: msrlabs
+  # physical cluster to use (cam, gcr, rr1, rr2) or Azure clusters (eu1, eu2, etc.)
+  cluster: rr1
+  docker:
+    image: hadisalman/cmu_code:latest
+
+code:
+  # local directory of the code. this will be uploaded to the server.
+  # $CONFIG_DIR is expanded to the directory of this config file
+  code_upload: true
+  local_dir: $CONFIG_DIR
+
+data:
+#   data upload is not required for this example
+  data_upload: true
+  local_dir: $CONFIG_DIR/data
+  remote_dir: data
+
+# list of jobs to run, we run 2 jobs in this example
+jobs:
+  # name must be unique across the jobs
+
+- name: job_madry_layers2_nodes100_0.3
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model layers2_nodes100 --method madry --epsilon 0.3
+
+- name: job_madry_layers2_nodes100_0.2
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model layers2_nodes100 --method madry --epsilon 0.2
+
+- name: job_madry_layers2_nodes100_0.1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model layers2_nodes100 --method madry --epsilon 0.1
+
+- name: job_madry_layers2_nodes100_0.05
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model layers2_nodes100 --method madry --epsilon 0.05 
+
+- name: job_madry_layers2_nodes100_0.03
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model layers2_nodes100 --method madry --epsilon 0.03
+
+- name: job_madry_layers2_nodes100_0.01
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model layers2_nodes100 --method madry --epsilon 0.01
+
+
+
+# - name: job_robust_layers2_nodes100_0.1
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers2_nodes100 --method robust --epsilon 0.1
+
+# - name: job_robust_layers2_nodes100_0.2
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers2_nodes100 --method robust --epsilon 0.2
+
+# - name: job_robust_layers2_nodes100_0.3
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers2_nodes100 --method robust --epsilon 0.3
+
+# - name: job_robust_layers2_nodes100_0.4
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers2_nodes100 --method robust --epsilon 0.4

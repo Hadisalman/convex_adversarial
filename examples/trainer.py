@@ -14,7 +14,7 @@ from attacks import _pgd
 DEBUG = False
 
 from IPython import embed
-def train_robust(loader, model, opt, epsilon, epoch, log, writer, verbose, 
+def train_robust(loader, model, opt, epsilon, epoch, log, writer=None, verbose=None, 
                 real_time=False, clip_grad=None, **kwargs):
     batch_time = AverageMeter()
     data_time = AverageMeter()
@@ -78,10 +78,11 @@ def train_robust(loader, model, opt, epsilon, epoch, log, writer, verbose,
                    data_time=data_time, loss=losses, errors=errors, 
                    rloss = robust_losses, rerrors = robust_errors), end=endline)
         log.flush()
-        writer.add_scalar('train/Robust loss', robust_losses.val, iteration)
-        writer.add_scalar('train/Robust error', robust_errors.val, iteration)
-        writer.add_scalar('train/loss', losses.val, iteration)
-        writer.add_scalar('train/error', errors.val, iteration)
+        if writer is not None:
+            writer.add_scalar('train/Robust loss', robust_losses.val, iteration)
+            writer.add_scalar('train/Robust error', robust_errors.val, iteration)
+            writer.add_scalar('train/loss', losses.val, iteration)
+            writer.add_scalar('train/error', errors.val, iteration)
 
         del X, y, robust_ce, out, ce, err, robust_err
         if DEBUG and i ==10: 
@@ -158,12 +159,12 @@ def evaluate_robust(loader, model, epsilon, epoch=None, log=None, verbose=None,
     torch.set_grad_enabled(True)
     torch.cuda.empty_cache()
     print('')
-    print(' * Robust error {rerror.avg:.3f}\t'
-          'Test Error {error.avg:.3f}'
+    print(' * Robust error {rerror.avg:.5f}\t'
+          'Test Error {error.avg:.5f}'
           .format(rerror=robust_errors, error=errors))
     return robust_errors.avg
 
-def train_baseline(loader, model, opt, epoch, log, writer, verbose):
+def train_baseline(loader, model, opt, epoch, log, writer=None, verbose=None):
     batch_time = AverageMeter()
     data_time = AverageMeter()
     losses = AverageMeter()
@@ -206,9 +207,10 @@ def train_baseline(loader, model, opt, epoch, log, writer, verbose):
                    accuracy=accuracy))
 
         log.flush()
-        writer.add_scalar('train/loss', losses.val, iteration)
-        writer.add_scalar('train/error', errors.val, iteration)
-        writer.add_scalar('train/accuracy', accuracy.val, iteration)
+        if writer is not None:
+            writer.add_scalar('train/loss', losses.val, iteration)
+            writer.add_scalar('train/error', errors.val, iteration)
+            writer.add_scalar('train/accuracy', accuracy.val, iteration)
 
 
 def evaluate_baseline(loader, model, epoch=None, log=None, verbose=None, writer=None):
@@ -367,8 +369,8 @@ def evaluate_madry(loader, model, epsilon, epoch=None, log=None, verbose=None, w
     if writer is not None:
         writer.add_scalar('test/Madry error', perrors.avg, epoch)
     
-    print(' * PGD error {perror.avg:.3f}\t'
-          'Test Error {error.avg:.3f}'
+    print(' * PGD error {perror.avg:.5f}\t'
+          'Test Error {error.avg:.5f}'
           .format(error=errors, perror=perrors))
     return perrors.avg
 

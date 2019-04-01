@@ -1,0 +1,1579 @@
+[33mcommit 6cd064e954de9c3ed885b870277fc1f95bcfa5cd[m[33m ([m[1;36mHEAD -> [m[1;32mlargeScale[m[33m)[m
+Author: hadisalman <hadicsalman@gmail.com>
+Date:   Mon Oct 22 17:25:15 2018 -0700
+
+    small fix - use DataParallel for multi gpu
+
+[33mcommit 37359044a6fdab0925c0d4889527f5b639fa78b5[m[33m ([m[1;31morigin/largeScale[m[33m)[m
+Author: hadisalman <hadicsalman@gmail.com>
+Date:   Mon Oct 22 15:38:08 2018 -0700
+
+    Maded dompatible with philly
+
+[33mcommit 797ddbbee26acefd0bce98cbc7688422da070481[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu Aug 2 11:47:25 2018 -0400
+
+    fixed #13 by adding None cases, and fixes the Dense None case
+
+[33mcommit f12ea49ef04e746a161cfb636c2af8a0a8172fc4[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Wed Aug 1 11:45:41 2018 -0400
+
+    added dataparallel to parallel robust loss
+
+[33mcommit e747af7e4e4be4c0b6ea52fce7e43dd6683f1f48[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Wed Aug 1 11:11:27 2018 -0400
+
+    Added None case for when layers are not applicable; made parallel false by default
+
+[33mcommit 66e5dcf62e3537209c77964870f9aa524ba18dcb[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Tue Jul 31 15:11:48 2018 -0400
+
+    fixed indent
+
+[33mcommit fd62bfab938ff1c2cfd1ef27c072ef3ae8748165[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Tue Jul 31 15:11:34 2018 -0400
+
+    removed transpose_all, fixed bias to include a singleton first dimension
+
+[33mcommit b6f3d6dbaa93e19f65d6cb600dda2f4243f335d9[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Tue Jul 31 15:10:57 2018 -0400
+
+    working dataprallel loss function
+
+[33mcommit 7541eecc1d06adae3c7b11c03dc237daac8bc44f[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Tue Jul 31 15:10:02 2018 -0400
+
+    added optional network argument to bounds function
+
+[33mcommit b0f49cc63d92cc03b0ed095a5870c48f81b274e0[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Mon Jul 30 18:01:20 2018 -0400
+
+    updated deprecated function calls
+
+[33mcommit 51a44ad977e8daa25c50b1a8de7a01fcae7b89ad[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Mon Jul 30 18:01:05 2018 -0400
+
+    fixed dense layers in refadctor
+
+[33mcommit 72480108b7545244f725e7c62f67311b52d9f1c4[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Mon Jul 30 16:33:58 2018 -0400
+
+    added time benchmarking example
+
+[33mcommit d29a4005c2b1bc86372906ade728254417a9f96b[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Mon Jul 30 16:32:32 2018 -0400
+
+    fixed init and case for parallelism
+
+[33mcommit cd99ffadb0171de76282530988a988ef168324a4[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Fri Jul 27 18:45:52 2018 -0400
+
+    bump version
+
+[33mcommit f875337ea67b0a2b9dc206d17131057611300d20[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Fri Jul 27 18:43:59 2018 -0400
+
+    fixed some typos with missing spaces and inheritance
+
+[33mcommit 641a9afae973328c93611db3e2c6cc10c5dba663[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu Jul 26 16:28:55 2018 -0400
+
+    reorganized readme
+
+[33mcommit c55484a0b80cbbc2a842115c5a40a6790af1ab6c[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu Jul 26 16:23:30 2018 -0400
+
+    updated readme for refactor
+
+[33mcommit 2f2fe9ede400934016a31c2be507dd5a79cee530[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu Jul 26 16:06:14 2018 -0400
+
+    bump version to 0.3.3
+
+[33mcommit 2ac29fc5be8db7f0ebf830147f2dd49d6c8f74d8[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu Jul 26 16:04:39 2018 -0400
+
+    Refactor of code to match PyTorch semantics: dual layers and the dual network are now just standard PyTorch modules, conforming to standard PyTorch semantics. This means each dual layer implements its affine operator in the 'forward' function. Additional changes include: removal of unnecessary code from the affine file, better organization of dual inputs vs dual layers, and an abstract base class for all dual objects.
+
+[33mcommit d266aff6499fb66d30610ed1725ad04d037d7ac4[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Wed Jul 25 18:17:36 2018 -0400
+
+    ignore data file
+
+[33mcommit 7ec4f3767d983695536059528873c41729fc3366[m
+Merge: b9d5581 0e4e50c
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Thu Jul 26 13:55:05 2018 -0400
+
+    Merge pull request #11 from progirep/master
+    
+    Compatibility Fix for Non-CUDA devices
+
+[33mcommit 0e4e50c6bfa888ec9e23a58f7e068e78549d565b[m
+Author: Ruediger Ehlers <rehlers@uni-bremen.de>
+Date:   Thu Jul 26 18:03:37 2018 +0200
+
+    Compatibility fix for Non-CUDA devices
+
+[33mcommit b9d558182812e45842aca5f9c33333e829fabd3e[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu Jul 12 18:37:28 2018 -0400
+
+    updated readme with instructions for 0.2
+
+[33mcommit 1cccd501f8957a0cd13097f2a8742ea1717f6094[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu Jul 12 18:34:41 2018 -0400
+
+    closes #7
+
+[33mcommit bcad9f6ae57073a55d89c8dadd7d110802e65d25[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu Jul 12 18:27:35 2018 -0400
+
+    closes #8
+
+[33mcommit 8f7cdfdeb0106665f85b124cb49658115d86f71d[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu Jul 12 18:23:12 2018 -0400
+
+    closes #9, renamed to Identity, and removed some extraneous code left in from testing
+
+[33mcommit 52db3484062cd436bca2c119aa99457f5763f131[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu Jul 12 18:07:01 2018 -0400
+
+    removed extraneous args
+
+[33mcommit cbbaff7caa24cc74d7335722114642bd8dd33380[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Sat Jun 2 02:26:08 2018 -0400
+
+    removed gradient arguments from dualnetbounds and readme
+
+[33mcommit 0860a6f6b70eafb0d65d7597b7834a52a3aeb96c[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Sat Jun 2 02:19:48 2018 -0400
+
+    added instruction for building dual layers
+
+[33mcommit 0ce8ff6cb07f7b4d845de84bb8579e8492492d17[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Sat Jun 2 02:19:38 2018 -0400
+
+    bump version
+
+[33mcommit 611cc89e36e011e8c67d94ad268258230c1a975a[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Sat Jun 2 02:14:25 2018 -0400
+
+    merged forgotten line
+
+[33mcommit 17a11a4b56e25eaffbff5db9b759de0e9a055bae[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Sat Jun 2 02:08:20 2018 -0400
+
+    fixed typos, added pointer to paper for results
+
+[33mcommit 4cb3d8b96cccea33295a4d5c2e5c0400387a1eee[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Sat Jun 2 02:05:46 2018 -0400
+
+    updated readme with new usage, udpated setup.py to use pytorch 0.4 and bumped version
+
+[33mcommit 74ff3bf4b3a8914dc1155cb40352f25e90452975[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Sat Jun 2 01:58:11 2018 -0400
+
+    updated readme for 0.3
+
+[33mcommit 856f0e45ae28eb05d302ddd6238fd212720531d6[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Sat Jun 2 01:42:41 2018 -0400
+
+    merged in kwarg update
+
+[33mcommit 43eac46eec8e62e185a8300461da347bbf0a6560[m
+Merge: cef59d3 fd65945
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Sat Jun 2 01:41:13 2018 -0400
+
+    Merge remote-tracking branch 'preview/master'
+
+[33mcommit fd6594577be0aa7726be65cbab919cecdd767ee5[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Sat Jun 2 01:40:51 2018 -0400
+
+    removed extra kwargs
+
+[33mcommit cef59d3ccfc8c40bb208fa560295cfd48785f7c3[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Fri Jun 1 23:02:38 2018 -0400
+
+    cleaned up dual.py, fixed transpose_all to work with generic connections, rewrote cifar example to be simpler
+
+[33mcommit 96e2770091b3e679f198591a396862b863d744b3[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Fri Jun 1 23:43:21 2018 -0400
+
+    bump version, update dockerfile to torch 0.4, removed deprecated function from dual
+
+[33mcommit 8a3c3025b854aeaa9c56e085b2b5119a5648840f[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Fri Jun 1 23:02:38 2018 -0400
+
+    cleaned up dual.py, fixed transpose_all to work with generic connections, rewrote cifar example to be simpler
+
+[33mcommit 705dd0322aca1165fd25f2b72b72c638236a08c6[m
+Merge: fb5291d 7c34103
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Fri Jun 1 00:29:02 2018 -0400
+
+    Merge remote-tracking branch 'official/master'
+
+[33mcommit fb5291d654321b0dd9f9f6b583a0d816e5aaf2a2[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Fri Jun 1 00:26:02 2018 -0400
+
+    removed lots of obsolete code, working parallel_robust_loss and robust_cascades"
+
+[33mcommit 7c341034e4eb47a06bbf78a5664be2d95d5357e8[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Thu May 31 20:26:38 2018 -0400
+
+    updated readme for new paper
+
+[33mcommit 5e915bd4c4b784e311b83b33a71ad639ea4c65fe[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Tue May 29 23:25:01 2018 -0400
+
+    cleaning up training files
+
+[33mcommit b6b0a821ea748a42fc837056595dbd5a8fd370d8[m
+Author: Eric <riceric22@gmail.com>
+Date:   Tue May 29 17:02:14 2018 -0400
+
+    fixed log dump for err
+
+[33mcommit 66cc97959f3190162968fecdf611451969987e89[m
+Author: Eric <riceric22@gmail.com>
+Date:   Sat May 26 13:34:53 2018 -0400
+
+    removed l1 file, moved to utils
+
+[33mcommit a3a8ef23d0fc179f17f4fa39cad3eee118598cec[m
+Merge: 534576e c5d17a6
+Author: Eric <riceric22@gmail.com>
+Date:   Sat May 26 13:19:37 2018 -0400
+
+    merged public branch into preview
+
+[33mcommit 534576e74e416c1521d22b1e57c5c917eeb8faad[m
+Author: Eric <riceric22@gmail.com>
+Date:   Sat May 26 13:07:58 2018 -0400
+
+    pytorch 0.4 migration
+
+[33mcommit 5a889059896095dc249cffe0e9e49f520b978876[m
+Merge: 9751e32 d3f3573
+Author: Eric <riceric22@gmail.com>
+Date:   Tue May 22 18:10:18 2018 -0400
+
+    Merge branch 'skips'
+
+[33mcommit d3f3573a83f9aa90952c7591fe7c340773f14762[m
+Merge: 6859088 ad7f648
+Author: Eric <riceric22@gmail.com>
+Date:   Tue May 22 18:09:22 2018 -0400
+
+    Merge branch 'parallel_eval' into skips
+
+[33mcommit 68590882003be998ca674ce1db983c1170933dc5[m
+Author: Eric <riceric22@gmail.com>
+Date:   Thu May 17 10:01:18 2018 -0400
+
+    fixed typo
+
+[33mcommit ad7f648d8c4454c4262025e51b0f56e5415bd27b[m
+Author: Eric <riceric22@gmail.com>
+Date:   Wed May 16 19:30:10 2018 -0400
+
+    finalized parallel evaluation
+
+[33mcommit 2995bc6ad771b04fa42b9dcd9caded959f17d22d[m
+Author: Eric <riceric22@gmail.com>
+Date:   Wed May 16 01:13:18 2018 -0400
+
+    moved layer selection and init into separate functions and made dataparallel robust loss
+
+[33mcommit 0beb803dfb9ef7ad15e61f74f6d947b958d74831[m
+Author: Eric <riceric22@gmail.com>
+Date:   Tue May 15 22:59:28 2018 -0400
+
+    adjusted test_loader size for svhn wide and deep models
+
+[33mcommit 93a59da23a2d45867d92196386d61300bf02a47e[m
+Author: Eric <riceric22@gmail.com>
+Date:   Tue May 15 10:26:47 2018 -0400
+
+    reduced test minibatch size for svhn to fit in memory
+
+[33mcommit 5512a0148a4c15f09056fd409f01540603101a0d[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 15 02:13:45 2018 +0000
+
+    made less verbose
+
+[33mcommit 816c939945c4ee16e072e1a91b0861e43ee5b190[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 15 02:13:27 2018 +0000
+
+    reduced batch size of the test set
+
+[33mcommit 20bc37510bde922f352b9b91fd5ff18aca7070f3[m
+Author: Eric <ericwong@cs.cmu.edu>
+Date:   Mon May 14 21:33:35 2018 -0400
+
+    fixed scripts to call proper files and fixed mnist example to start with cascade 0
+
+[33mcommit 0e124a8fe27facd85e6a9880d50337aaf95c20ff[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon May 14 21:21:34 2018 -0400
+
+    added cascade training scripts
+
+[33mcommit 57ff13629f0f779579d62d87ad2a6d10459de34d[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon May 14 21:09:06 2018 -0400
+
+    added print for no more examples
+
+[33mcommit 4dae7d277fbbdb8780cd4d802fbf600d6d292529[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon May 14 21:08:41 2018 -0400
+
+    moved data folder for svhn
+
+[33mcommit 1e0726bb42de93fd1930b194969e42e5b3e81034[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon May 14 20:59:43 2018 -0400
+
+    finalized mnist example
+
+[33mcommit 1f7b6f134263568171cf84c1b39202ae404ebeef[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 15 01:00:03 2018 +0000
+
+    fixed cifar/svhn examples
+
+[33mcommit 1d65e52972acaad8302a5937285e35c6b06595d9[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 15 00:25:51 2018 +0000
+
+    added spacing for output
+
+[33mcommit 092d097d7519c22b239e6159ce56a35bf5f27ae1[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon May 14 20:01:39 2018 -0400
+
+    added mnist cascades
+
+[33mcommit 6c490a48930064f1d3b460da66b56b4293d78c71[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 15 00:02:22 2018 +0000
+
+    added break for when no more uncertified examples remain
+
+[33mcommit f12c80eaa9c7c31bf19282d8a590123871b85346[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon May 14 23:33:51 2018 +0000
+
+    working cascade model with fixed learning rate decay
+
+[33mcommit 5d34971a013ea98e341d00d730b0a6c9ca2942dd[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon May 14 22:19:22 2018 +0000
+
+    better printing
+
+[33mcommit e246e1cb973ee092a6da45db23b06d20f25e4ed3[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon May 14 04:47:25 2018 -0400
+
+    runnable svhn cascades
+
+[33mcommit ea801dfb15ddd10756f6d7d62131033d7f7cbf60[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon May 14 01:23:01 2018 -0400
+
+    added epsilon notebook
+
+[33mcommit 126825c2985eb3f821f49139dc073b9efec54c05[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon May 14 01:01:40 2018 -0400
+
+    initial commit for svhn cascade models
+
+[33mcommit 1c2d0c8bf46c47a3117425a8a6fccfaacf22b66f[m
+Merge: 6aff8f7 5bb38a3
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Sun May 13 20:46:28 2018 -0400
+
+    Merge branch 'skips' of github.com:locuslab/convex_adversarial.preview into skips
+
+[33mcommit 6aff8f713ed108dfff1dc8747c11089b8c1c2b31[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Sun May 13 20:46:19 2018 -0400
+
+    updated code to work with optimizing over epsilon
+
+[33mcommit 5bb38a3dc6aaeff8866a268ed2e7ad6a1c7c8f96[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun May 13 02:04:00 2018 -0400
+
+    more problem types for mnist
+
+[33mcommit 49500e4d4071bb04ca4a90a84851d1a9f1c52700[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun May 13 05:33:40 2018 +0000
+
+    changed to work with none arg
+
+[33mcommit 96a16bf71edff1ecf2adf2f92e712e8f232c33a9[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun May 13 05:31:05 2018 +0000
+
+    added resnet to svhn example
+
+[33mcommit 2ec2c757da98706a8a8eb5817d7dbc0a4fd423de[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun May 13 05:22:06 2018 +0000
+
+    changed examples to 2 pixels
+
+[33mcommit 3d3ef11cd3fa6d2f655d6ecf5b34bca0dd901872[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Sat May 12 21:51:51 2018 -0400
+
+    fixed statedict saving
+
+[33mcommit 9f2f532a6d6a0132acdd2c1e309cca38d0d6dbfd[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 02:22:22 2018 -0400
+
+    updated learning rate
+
+[33mcommit 5c7696e197ef2d1a97c490189a098b036951ec2a[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 02:19:15 2018 -0400
+
+    updated resnet example and printed save file name
+
+[33mcommit 2d6fe9a5e8b1ee119d25a660f127075fc1017a58[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 02:16:54 2018 -0400
+
+    fixed sy ntax error
+
+[33mcommit 851777b01a7a32f88456afe4b3f46e240660988b[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 02:15:16 2018 -0400
+
+    removed extra line
+
+[33mcommit d280af976ace66f168f8ffcfa8030e6b2f5b11bc[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 02:02:46 2018 -0400
+
+    svhn experiment scripts fixed to output to correct name
+
+[33mcommit ce2e2868fc7212fcc0b7584bc7e2b7c6f24c6e63[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 01:58:37 2018 -0400
+
+    added additional mnist experiment scripts
+
+[33mcommit 8af92d8d21814e6b4c6d3c0477295c0644fd6f23[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 01:58:18 2018 -0400
+
+    added svhn scripts
+
+[33mcommit b9249bd10f300ed954eefa80b887476159d94d10[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 05:42:13 2018 +0000
+
+    started adding svhn experiment, and added projection as argument to cifar script
+
+[33mcommit 9c0d3be6182b14d4cef20593e3de89b83db00d73[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 05:06:26 2018 +0000
+
+    updated cifar resnet script to accurately reflect current experiments and banned resnet kwargs when no resnet
+
+[33mcommit ddc2afd0f1b2f020f4f636c6948c6515e0304302[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 04:46:03 2018 +0000
+
+    updated command line argument for resnet models in cifar
+
+[33mcommit e57861d4be1061046f5a5e2768d5b58e67758419[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 12 00:35:36 2018 -0400
+
+    moved cuda cache again to clear at end of loop, added vgg like as a deep_wide network, added deep bn experiment
+
+[33mcommit a80061ab962e0acb2ac53b7a0187b4ef17a56dac[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Fri May 11 18:10:13 2018 -0400
+
+    fixed gradient clipping for deep networks
+
+[33mcommit 6d34a9d28bc92c5c856f3ed6e9e8e2256e4144b6[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Fri May 11 03:15:17 2018 -0400
+
+    fixed resnet for 2+ layers
+
+[33mcommit ab3c2272c3418100502164f36d23930974e88862[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Thu May 10 21:20:52 2018 -0400
+
+    added random seed for random and numpy.random
+
+[33mcommit 3997c71010912a75acfd7c114f901b99687fafc2[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu May 10 18:47:00 2018 +0000
+
+    updated new cifar epsilon value
+
+[33mcommit efda97f5133f46cb919323285dc9f285bd1ae4e2[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Thu May 10 14:27:38 2018 -0400
+
+    added back in the data augmentation
+
+[33mcommit 41f27263f4ff343d742e419d57811bcd013513db[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu May 10 18:15:01 2018 +0000
+
+    cifar no longer uses bounded box, added argument to enable bounded box for mnist only, updated cifar script
+
+[33mcommit 61079a34af7b2feb338c28d954eacbd87790264c[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu May 10 04:49:35 2018 +0000
+
+    removed norm ball for cifar experiments, need to undo this for mnist
+
+[33mcommit e74972664fa4695d9562bdce22d4b1c4a24b6f87[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 15:33:03 2018 -0400
+
+    updated cifar/resnet scripts and dockerfile run
+
+[33mcommit bffccc48272182a560139639c4a28a1664509559[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 04:55:43 2018 -0400
+
+    fixed docker run script
+
+[33mcommit 460413af6d156a8554c751c8def4f8250a72eeae[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 08:52:50 2018 +0000
+
+    fixed error message
+
+[33mcommit 204eda45782724a90a7311b6fbab2f7527d6958e[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 08:49:58 2018 +0000
+
+    reduced lr step size to 20 for cifar
+
+[33mcommit 68437cd13c29ddd9d841e14edccdc588183e2714[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 08:49:36 2018 +0000
+
+    finalized scripts for remote run
+
+[33mcommit 081a220b17e456cac6503dae5f7a8926b3163ae5[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 04:14:40 2018 -0400
+
+    moved data to ./data
+
+[33mcommit f4d4771d2514310c0cdcef8bd6d3c3c07814de87[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 07:22:51 2018 +0000
+
+    added import math and limit to 1000 examples when evaluating exact
+
+[33mcommit a57d7779380784a38a26159120757dae8ef694e2[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 02:37:10 2018 -0400
+
+    added medium size cifar tests
+
+[33mcommit 7a2451384449cef29c960e9d7d3fb73a563f9bbd[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 06:26:56 2018 +0000
+
+    cifar wide and deep models for intermediate testing
+
+[33mcommit 6e547cbd18835be9986b981e697d03f3863dfa3d[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 05:46:32 2018 +0000
+
+    added resnet/vgg scripts
+
+[33mcommit 8e67eb75113e0587956390904f4c7a1f197e4571[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 9 05:44:27 2018 +0000
+
+    limit test set for large problems to 1000 examples
+
+[33mcommit f6fa16677c4f7c8dd0ba9d887732471df0f04834[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Wed May 9 01:24:27 2018 -0400
+
+    added nips experiment scripts
+
+[33mcommit 33dda4c10ba766c3f8448d070edc51e911a401b8[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 8 19:21:43 2018 +0000
+
+    added nu_x to projection with bounded box
+
+[33mcommit 23fd983d44f2c548669a56be64bf0b3fa99cf94f[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 8 19:17:36 2018 +0000
+
+    switched to using bounded boxes
+
+[33mcommit 8f7b59d3f9a7bc9a5f56bc6a512c4cfb9c0287b4[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 8 19:15:46 2018 +0000
+
+    fixed cifar schedule
+
+[33mcommit 9cc716c622749cff479567ddd45ac5a6c55daa5a[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 8 13:09:53 2018 -0400
+
+    important fixes: no more l1 proj by default on the input space. fixed naming of files. added [0,1] norm bounded constraint.
+
+[33mcommit b9116ed42b97e5c52833282c34fc212a3a8e1882[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 8 00:25:39 2018 -0400
+
+    added [0,1] constraint
+
+[33mcommit 4b21c3308bd3ba3b910b1b3e86ade2c17bd62ab0[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Sun May 6 16:35:45 2018 -0400
+
+    started adding box constraint
+
+[33mcommit 6c51e967eba2d9d681c570f67567192834980db7[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Sun May 6 16:06:40 2018 -0400
+
+    finalized mnist experiment script setup
+
+[33mcommit 17a3ada30f9bd077df1090675c2f7afbd390bb77[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Sat May 5 18:46:09 2018 -0400
+
+    fixed cuda argument, printed cuda environment variable, and removed waitgpu from mnist
+
+[33mcommit 64704eb881d1b5f4319d8c6006e3db299ceb4c03[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 5 22:42:55 2018 +0000
+
+    added cuda_ids argument
+
+[33mcommit 66d0709957310041ff69133471b2827533aa7d8a[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat May 5 22:36:48 2018 +0000
+
+    updated model saving to properly save best model, and added gradient clamping and clamping of the relaxation
+
+[33mcommit f0503926c02895cf6f4cf926e3aafa848ef24f85[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri May 4 21:30:58 2018 -0400
+
+    support for no biases in linear operations
+
+[33mcommit 4d770d66d58177fad087301a2571d79157da6657[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri May 4 21:10:56 2018 +0000
+
+    removed bias before batchnorm
+
+[33mcommit ddb600c2e8e7969207fc0f53e2a51842b277e6ab[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri May 4 19:02:57 2018 +0000
+
+    updated cifar resnet model
+
+[33mcommit 2905fee82d2ef20614899a7b4a256222cc52a992[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri May 4 18:29:38 2018 +0000
+
+    temporary fix for performance increase without batch norm
+
+[33mcommit 6ebfc99846f3882a2ad6b1dacb0a2ff4d3836ce1[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Fri May 4 14:28:57 2018 -0400
+
+    added wide resnet
+
+[33mcommit 47304dac13ea6e2e7be39919f27ac427681011b5[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri May 4 17:12:40 2018 +0000
+
+    added wide resnet
+
+[33mcommit b3e1d8758bd7acfdf8dfd03bbe7a14c2e6314af3[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Fri May 4 11:06:32 2018 -0400
+
+    added wide resnet and batchnorm model
+
+[33mcommit 24f024a06e4ea63094e8d3c2b7eadc138dc691ad[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Fri May 4 11:05:33 2018 -0400
+
+    fixed residual layers
+
+[33mcommit c330f6b2253dadb0e6fada531db8eb3890246a07[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu May 3 01:42:14 2018 +0000
+
+    updated dual to be a module with nn.dataparallel
+
+[33mcommit 6cef72140073f65add966c1e9d58d694d32c5bf0[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Wed May 2 17:19:51 2018 -0400
+
+    clear cache aggressively
+
+[33mcommit d98dbddaa264c56158e9e760bc9d01187b6a568c[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Wed May 2 17:03:13 2018 -0400
+
+    save best model for mnist
+
+[33mcommit de2a08c6dea0efcfe2d6d3e9d006442f4d4b2626[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Wed May 2 12:28:56 2018 -0400
+
+    updated cifar example to be runnable
+
+[33mcommit 264db05b8e930cedc9499c8fdb22e01ef02fa31a[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 2 07:38:40 2018 +0000
+
+    updated cifar example for new argparser
+
+[33mcommit bbadb7b339eb0a168db0915781c2d180ce363528[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 2 03:56:25 2018 +0000
+
+    added dense classes
+
+[33mcommit eaf5edb196b8978ba758ca9ecbe2db9aa10c4730[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 2 00:09:52 2018 +0000
+
+    switched to setGPU
+
+[33mcommit 9366b31e1746973d8cf88aa852569f8a1dcf457c[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed May 2 00:09:31 2018 +0000
+
+    made biases smaller (no longer expanding via batch dimension) and finished batchnorm
+
+[33mcommit 32fce3dbae01da8d520e4eb315c07358ea0be36a[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 1 21:28:10 2018 +0000
+
+    changing the argparser to take in model and training arguments
+
+[33mcommit a1d94385bc1694c29645d221490e138d202c780c[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 1 21:18:55 2018 +0000
+
+    updated cifar example with default argparser and smaller test set
+
+[33mcommit 51106f20bbdfbbbb6e97bbc0b0acdc637137aa1d[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 1 21:18:21 2018 +0000
+
+    added madry style training
+
+[33mcommit 083ea9d0d45bad3a9de73028778677ec518ee2a7[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 1 21:15:47 2018 +0000
+
+    started batchnorm
+
+[33mcommit 659862852fdb6a6b611310fc46551495157337dd[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue May 1 03:50:49 2018 +0000
+
+    added projection code to modular code
+
+[33mcommit 87d3a17c457b42c80d927cb39d37ca17bcc63f26[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Apr 30 06:31:29 2018 +0000
+
+    initial working commit for modularized implementation
+
+[33mcommit 4edf3a079ba40ec805ee9ae0839df0740b20d6f4[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Apr 30 06:30:44 2018 +0000
+
+    added case for explicit expansion of bias
+
+[33mcommit 4d2a5d2ac35ee9d1998551e758caa737de8e3a87[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri Apr 27 22:46:53 2018 +0000
+
+    fixed typo
+
+[33mcommit 3752e5bae3c02a3d35e6663821e03b6ecafacced[m
+Merge: ba68017 821f91b
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri Apr 27 22:30:41 2018 +0000
+
+    Merge branch 'l1' into skips
+
+[33mcommit 821f91beb5e1f1227717122810d64c873ce25e65[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri Apr 27 22:29:40 2018 +0000
+
+    started running fixed gradient examples
+
+[33mcommit c5d17a6e9c0616ec4c71b851862e1d902f994c78[m[33m ([m[1;33mtag: v0.2[m[33m)[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 26 16:49:49 2018 -0400
+
+    updated pytorch version in setup.py, added models and updated gitignore. closes #3
+
+[33mcommit ba680173f15255fad034c457c608b34214ef246a[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 26 02:37:23 2018 +0000
+
+    working resnet on 2D
+
+[33mcommit 7e1ff47b5a01ff0ecfcf40f10778b667383f455b[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Apr 25 02:03:29 2018 +0000
+
+    add optimizers
+
+[33mcommit 87cffa715e9686bfbf160f04a30008cc850b790e[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Apr 25 02:03:08 2018 +0000
+
+    pin memory and shorter filenames
+
+[33mcommit 17f7cff3ca1dc6f53cdeac9136075e9a11bc45a7[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Apr 25 02:02:39 2018 +0000
+
+    better printing
+
+[33mcommit c3df886428596a28c6b1a743ad19d62e06a030a7[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Apr 25 02:02:22 2018 +0000
+
+    more running configs
+
+[33mcommit b79e90be10394f285f43a71bc74c81f742ef70c1[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Apr 23 18:42:29 2018 +0000
+
+    removed train_loader
+
+[33mcommit 865b98fc0a630b20faa0812c017738b9489c676c[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Apr 23 06:50:48 2018 +0000
+
+    added cudnn benchmark flag, switched to sgd and updated models
+
+[33mcommit 4daebcc9aa008b2b10b4fe224c99ba952d8f7376[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Apr 23 06:41:31 2018 +0000
+
+    using averagemeters
+
+[33mcommit 8eac3b53a867b1d2d9615830d2d85e2359d20453[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Apr 23 06:38:49 2018 +0000
+
+    added case for when no layer has bounds
+
+[33mcommit 436e96fa4c7045d8e7a7ec7b58b1543eadbbaf1f[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Apr 23 06:38:02 2018 +0000
+
+    added language environment variables for printing tensors
+
+[33mcommit 02476d29448c0f9ec824dc444f398b2e47f7179c[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue Apr 17 22:51:27 2018 -0400
+
+    added cifar problem and trainer
+
+[33mcommit b944a57631b5fcd3edae7e69822361dfb2e088ce[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue Apr 17 22:50:46 2018 -0400
+
+    added cifar example
+
+[33mcommit d68d0e96986a9d8fd299ca828959f0fc8d9b5f6b[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue Apr 17 22:12:32 2018 -0400
+
+    added docker ignore
+
+[33mcommit e7d6b06dbda5ff4516f25f042c6770bbba5149e9[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue Apr 17 20:37:56 2018 -0400
+
+    added run
+
+[33mcommit 83c500ec50081af39a2b4d48d59a05582b6146e2[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue Apr 17 20:31:02 2018 -0400
+
+    added dockerfile
+
+[33mcommit aa753550744c1785d84ab1454fe7c13df16fb6b5[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Apr 16 19:16:59 2018 -0400
+
+    streamlined mnist example with argparser
+
+[33mcommit c432cbd09d8575d74a4d05f86ab9f0cf3788a86f[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Apr 16 18:41:35 2018 -0400
+
+    fixed string equality bug and epsilon=0 bug for exact
+
+[33mcommit 7cc28c439f5d2c7657e88f388831b129b67c1314[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 5 20:25:09 2018 -0400
+
+    skipping all cpu allocation
+
+[33mcommit 7caf2d56bb5e2422235fcf5aad28f3e69eb445bf[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 5 20:24:49 2018 -0400
+
+    clear cache before moving from test to train
+
+[33mcommit e947ec7b5f5aa13a59487c9468bcde7a2b81dc6b[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 5 20:10:50 2018 -0400
+
+    changed to a single l1_type parameter
+
+[33mcommit 57a739d7ae495c83f7990188a468a10f93761983[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 5 13:27:39 2018 -0400
+
+    verified geometric is correct
+
+[33mcommit ba2fac421924e1dace1b7fcc7a64d126769cbcf9[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 5 13:19:34 2018 -0400
+
+    matching old version for l1 median
+
+[33mcommit fa98359fc5abb5717810afc5e79c8943153cdd8c[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 5 13:07:17 2018 -0400
+
+    fixed batching
+
+[33mcommit 11e3b72067b5cdeb973c33bc5600652aa48c4c5d[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 5 12:43:08 2018 -0400
+
+    runnable but not working l1 rewrite
+
+[33mcommit 5a90b8bd2e5952b6b0d3be65893fdf0dd06dd258[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 5 12:26:31 2018 -0400
+
+    non-projection code correct
+
+[33mcommit 80f73d8eac2f101d90b1579019e248a59b93f8bc[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Apr 5 12:21:41 2018 -0400
+
+    runnable but not correct
+
+[33mcommit 9751e32dd860ec17e5d651fe4e9a1806cc3c8d00[m
+Merge: 1a68604 78bb8c0
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Apr 4 18:40:02 2018 -0400
+
+    merged in l1 approximations
+
+[33mcommit 1a6860401506f4770bac957bf747e77581b2d0cd[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Apr 4 17:49:23 2018 -0400
+
+    updated toy example to use minibatched function
+
+[33mcommit 2827f0ef577ce215aaecbb734e12ffe2c6abb26c[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Mar 5 11:44:36 2018 -0500
+
+    updated news
+
+[33mcommit 40f72fcab23e21aeab2ff4d433d1ccdb212610a1[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun Mar 4 23:31:28 2018 -0500
+
+    updated readme with news
+
+[33mcommit a4a75056b93d8ebd6f80090454e06785656032fe[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 3 17:36:16 2018 -0500
+
+    updated links in readme
+
+[33mcommit 6e0b5d5c80efeab9abc4a52d5ddc2bce548ca5db[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 3 17:34:32 2018 -0500
+
+    bump version
+
+[33mcommit 1da32173be144adc3e49e99d0c0f59516d08edb5[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 3 17:33:41 2018 -0500
+
+    update readme
+
+[33mcommit 040810d410df8c4b398b411835e3c7d8971b145f[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 3 17:33:31 2018 -0500
+
+    made grad arguments optional
+
+[33mcommit 0a3994525d8ecd219e6c179ac382c88bbfd0801c[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Sat Mar 3 16:36:27 2018 -0500
+
+    Update LICENSE
+    
+    Changed to MIT license.
+
+[33mcommit 8dc0cb2d797969e077e2ae7573572ad94835ea46[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon Nov 27 11:38:44 2017 -0500
+
+    Create LICENSE
+
+[33mcommit 3ba9a1d6a78661089a1aa48aff1de9b70113a4df[m
+Author: Zico Kolter <zkolter@cs.cmu.edu>
+Date:   Thu Nov 2 20:34:29 2017 -0400
+
+    Update README.md
+
+[33mcommit d171614097123be41555cd97af832559331e5c96[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Sat Mar 3 16:36:27 2018 -0500
+
+    Update LICENSE
+    
+    Changed to MIT license.
+
+[33mcommit 2de0007e4785e8a7bc392277b483be434c21edfa[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon Nov 27 11:38:44 2017 -0500
+
+    Create LICENSE
+
+[33mcommit aba94632a56318536b79c1d7e225bfca973408ed[m
+Author: Zico Kolter <zkolter@cs.cmu.edu>
+Date:   Thu Nov 2 20:34:29 2017 -0400
+
+    Update README.md
+
+[33mcommit 78bb8c0dcbe2e2051596fc42170accd137031224[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Apr 4 18:12:32 2018 -0400
+
+    added model selection to mnist
+
+[33mcommit becda85a1da845830573e7bb6ed3bad95adbfc24[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Apr 4 18:12:05 2018 -0400
+
+    made grad arguments optional
+
+[33mcommit d82ec8de46cdc8103c67e3f7f9d66aad517e5e78[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Apr 4 18:11:46 2018 -0400
+
+    removed redundant contiguous calls
+
+[33mcommit b1e159eed69dacfe37952d2344396a5e55b30eab[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Apr 4 17:49:23 2018 -0400
+
+    updated toy example to use minibatched function
+
+[33mcommit 4748e605dacc6b34996789bf233fdce58ef1b8da[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue Apr 3 18:48:29 2018 -0400
+
+    working high probability models
+
+[33mcommit a8a19696f46ce4daf2a6a868c41da86c08f81192[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 10 22:58:17 2018 -0500
+
+    updated mnist example to match paper
+
+[33mcommit 6631e2cc7ab9accef1b042cacaead5059097b6e0[m
+Merge: b624cb4 eea65b0
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 10 22:47:35 2018 -0500
+
+    Merge branch 'master' into l1
+
+[33mcommit eea65b0ec905da35825b1eec89d6e06c2749763d[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 10 22:47:22 2018 -0500
+
+    updated mnist example to match paper
+
+[33mcommit b624cb401baee725bc3e4d7a1008dbaa29bc8aa1[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 10 22:46:04 2018 -0500
+
+    more progress
+
+[33mcommit 4e9377f5c89df2a9d34038cc6700ab62ee99a566[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Mar 5 11:44:36 2018 -0500
+
+    updated news
+
+[33mcommit 4fb6ad030dd5100c05a475d1cd59af426ce6aaa8[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun Mar 4 23:31:28 2018 -0500
+
+    updated readme with news
+
+[33mcommit 5f7d50a6845f2807058318f930264b9b5add8f08[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 3 17:36:16 2018 -0500
+
+    updated links in readme
+
+[33mcommit 02507f96c66361e52638165d13c306d9d087722f[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 3 17:34:32 2018 -0500
+
+    bump version
+
+[33mcommit 596d9dab2d50d4b749f3bfb3a6ba2972f93ca927[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 3 17:33:41 2018 -0500
+
+    update readme
+
+[33mcommit 82a1ed9df8219269d394259b48cbabef0271077e[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 3 17:33:31 2018 -0500
+
+    made grad arguments optional
+
+[33mcommit 36a33ec3121ee14490cdf3f906424b12bcc8af32[m
+Merge: a195a93 18a971e
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 3 17:11:28 2018 -0500
+
+    merged icml branch to master
+
+[33mcommit 18a971e3937ea6bbeba7bdb0ec4e363a84ff8760[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Sat Mar 3 16:36:27 2018 -0500
+
+    Update LICENSE
+    
+    Changed to MIT license.
+
+[33mcommit d79103854f9170310210a38f0c8932c1666ae5fe[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon Nov 27 11:38:44 2017 -0500
+
+    Create LICENSE
+
+[33mcommit 67f6ba9d17bc848ba0809d861e95a86365b7a092[m
+Author: Zico Kolter <zkolter@cs.cmu.edu>
+Date:   Thu Nov 2 20:34:29 2017 -0400
+
+    Update README.md
+
+[33mcommit f65a2567117e3bf7e296596134eeb00a15765643[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sat Mar 3 16:54:35 2018 -0500
+
+    created setup.py, updated readme
+
+[33mcommit a195a93105eed3434cea8ef02cc8504a5a11ee35[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Sat Mar 3 16:36:27 2018 -0500
+
+    Update LICENSE
+    
+    Changed to MIT license.
+
+[33mcommit a60e68c1bdf200e6ba65dca5cd31a391585c861a[m
+Merge: 18ca464 28ec9a1
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Mar 1 16:46:44 2018 -0500
+
+    merged in size_average
+
+[33mcommit 28ec9a1cd054f4589e6f00b598f4eafa458c8962[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Mar 1 16:43:28 2018 -0500
+
+    added size_average
+
+[33mcommit 18ca4643d90f4d21adcafe5255d45935af609413[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Mar 1 16:41:11 2018 -0500
+
+    l1 in progress
+
+[33mcommit 954e1719a0265af57cc5359c84f7849e1e5a779d[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri Feb 23 15:02:59 2018 -0500
+
+    working, simplest version except for backprop through geometric
+
+[33mcommit 012b8220fbb46d37ff22a91bec71730c601e516b[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Feb 22 14:03:54 2018 -0500
+
+    added l1 median estimator
+
+[33mcommit 8fa6dc49c74602f93140ba8eca52762c6c0f5643[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Feb 22 11:22:51 2018 -0500
+
+    moved empty cache to end of train/test loops
+
+[33mcommit 6ca29e60f0e7135403daea4cdbaacc86200efb86[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Feb 22 11:22:14 2018 -0500
+
+    working abstracted out normal and l1 projection classes
+
+[33mcommit 91b1c16c9c0f343af19dc776e0e073893e49a0a7[m
+Merge: bfa37c3 f336c76
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue Feb 13 12:37:34 2018 -0500
+
+    Merge branch 'master' into l1
+
+[33mcommit f336c7646d66d2d1865e6943293c8259ba315f32[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue Feb 13 12:37:22 2018 -0500
+
+    updated robust_loss import in attack example
+
+[33mcommit bfa37c35904b6af9fa7af3a4a20c72ce7880c7f8[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Tue Feb 13 12:36:50 2018 -0500
+
+    new vgg like network
+
+[33mcommit e7641f6fe015914f08fcbb3d0f3d337f799d0003[m
+Merge: e3542b6 0917ce6
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 17:23:46 2018 -0500
+
+    merged volatile from master
+
+[33mcommit e3542b6f975b37dc119a60eba3b04e3f737a618e[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 17:23:04 2018 -0500
+
+    added large mnist model
+
+[33mcommit 0917ce63e4085111151f42cb14cad4a5b99b8978[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 17:22:18 2018 -0500
+
+    made evaluation volatile
+
+[33mcommit 0de39c93552a029c1f1a052b56b5d3c4fe6ec783[m
+Merge: 8b396dd 3e25a57
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 17:17:21 2018 -0500
+
+    merged master
+
+[33mcommit 3e25a5770dfd36a146df94ce33dde3d421659e35[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 13:57:20 2018 -0500
+
+    removed extra code
+
+[33mcommit 35df5453d64e93b966ae638df553703cacc4d1ee[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 13:49:22 2018 -0500
+
+    added batch helper for readability
+
+[33mcommit 9583f073594420136eea84c9da78f8ea94fc5abd[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 13:22:48 2018 -0500
+
+    added primal examples
+
+[33mcommit 47337aec17f1a23ed1fce3f9c0107dcc914de9d2[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 13:20:16 2018 -0500
+
+    updated epsilon example
+
+[33mcommit 829f21b4c7aee3c1811ac094f2df71493e09c9eb[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 13:07:37 2018 -0500
+
+    updated and simplified all examples
+
+[33mcommit d6b198e1e65b2f1b6bec6a6d633fec7a8a64eb27[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 13:01:51 2018 -0500
+
+    updated har example
+
+[33mcommit ca5a698d2986b238481bc805bc59e5f6c67236f3[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 12:59:42 2018 -0500
+
+    consolidated mnist example
+
+[33mcommit 8b396dd68b53a2a9eaabf0946aa3bd6996680a60[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Feb 12 12:48:55 2018 -0500
+
+    wip
+
+[33mcommit 298323b34327db12c2eb909aa9129f802ef08eef[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun Feb 11 17:31:58 2018 -0500
+
+    added l1 projection for the l1 term
+
+[33mcommit 30a609b09a290ae99719b4dc2ccfec4afc3db2e0[m
+Merge: f3f7f8f 45f79a6
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun Feb 11 17:29:10 2018 -0500
+
+    Removed extraneous l1 cases
+
+[33mcommit 45f79a60f933d6d3989b6f62b93221022556d337[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri Feb 9 05:40:14 2018 -0500
+
+    commit examples for icml
+
+[33mcommit f3f7f8f7314583e3b33c9c8444401849d5080979[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri Feb 9 05:40:14 2018 -0500
+
+    commit examples for icml
+
+[33mcommit d6028c421e9bae8356a8420d591a07659d045cc2[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri Feb 2 17:24:22 2018 -0500
+
+    updated mnist example
+
+[33mcommit c45393fbe103e3504642992ae97f9d1a9b41e1be[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri Feb 2 17:24:05 2018 -0500
+
+    fixed loader ys for multi dimensional outputs
+
+[33mcommit 61139ac0d4e92f4a4670725b9815529e747cae75[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri Feb 2 17:23:36 2018 -0500
+
+    fixed a nan bug
+
+[33mcommit 4b5e2ef15dde0ace7787898033102e2106c6ddaf[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Jan 25 13:27:02 2018 -0500
+
+    removed extra packages, fixed u=l bug and now achieves previous results
+
+[33mcommit f900def4279ad627d4605870782d89301c53570b[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Jan 25 11:09:55 2018 -0500
+
+    ignore .pth and .log files
+
+[33mcommit 1a4ed419a8b42e72e0ebe33509cccf663f63a986[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Jan 25 11:09:07 2018 -0500
+
+    moved code to trainer.py
+
+[33mcommit bbf5bd8c5b5677ab8c2583a166cde92a094f1319[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Jan 25 11:08:35 2018 -0500
+
+    removed extraneous cvxpy
+
+[33mcommit d1a1927a6c882076b98b4ba0e1e0fe33d692503a[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Jan 22 18:21:24 2018 -0500
+
+    fixed NaN bug from u=l, added l1 projections for the l1 term, changed break_ to _grad
+
+[33mcommit a64686d02bd1e83f4a8e2a55f96816981456e28c[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Dec 18 18:00:42 2017 -0500
+
+    changed mnist example to use batched version
+
+[33mcommit a408ae6279eb10be65d07d6c2cad2bad41cc4d32[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Dec 18 16:07:20 2017 -0500
+
+    extra memory efficiency by clearing variables at end of loop
+
+[33mcommit 72042d53063203b4c0cefd53ee367a32c8901c4d[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Dec 18 16:06:53 2017 -0500
+
+    fixed another bug regarding the expansion of s for more than one minibatch
+
+[33mcommit ec914111b55fbe3ae7ef80624b723679a23a17a0[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Dec 18 15:48:04 2017 -0500
+
+    fied bug for improper expansion of s for I indices
+
+[33mcommit 8a379615ef7b090dd99ffe54b7d32ef30041c7e1[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Dec 18 15:08:08 2017 -0500
+
+    minor fixes
+
+[33mcommit cf21898f226b279f09f512cb9f4b74c6e4bfd91d[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Mon Dec 18 14:43:11 2017 -0500
+
+    minibatched conv inputs, finalized batched
+
+[33mcommit 36cecd22dc3d944ef0aee01257c6fd5052e97497[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Mon Nov 27 11:38:44 2017 -0500
+
+    Create LICENSE
+
+[33mcommit a282d754993b1da240d43716c05888fd3e5ca6f9[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Nov 22 11:31:26 2017 -0500
+
+    adjusted for batched
+
+[33mcommit 9569fcaba93474fc6169a00669543deb508744f5[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun Nov 19 23:52:50 2017 -0500
+
+    added batched version
+
+[33mcommit ae59057be224355dcf9f2320e67f6a9412791518[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun Nov 19 13:44:45 2017 -0500
+
+    fixed scatter gradient, removed alpha
+
+[33mcommit bda4297245f42cb8269e56914951be731753fe3f[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Nov 8 10:54:35 2017 -0500
+
+    changed to functionals and added l1
+
+[33mcommit 85dc1c8f9c38fb2a925c5c73e6a4db10567eda5f[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Sun Nov 5 14:04:06 2017 -0500
+
+    updated mnist example to take in alpha argument
+
+[33mcommit 474a5cc8b62cb0f7b6da6f9c959ecd9883486d12[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Fri Nov 3 16:28:42 2017 -0400
+
+    added alpha arguments to robust loss
+
+[33mcommit 0525830c8cfeab6745f519951d025620f74e3e77[m
+Author: Zico Kolter <zkolter@cs.cmu.edu>
+Date:   Thu Nov 2 20:34:29 2017 -0400
+
+    Update README.md
+
+[33mcommit 28c84e370a51f7bd3b8c4c9bce386c3688a651ae[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Nov 2 15:02:12 2017 -0400
+
+    updated 2D example
+
+[33mcommit 38f551bdedc4978225f6d1ece2cea2bbadb7871a[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Nov 2 00:46:10 2017 -0400
+
+    added MNIST section
+
+[33mcommit 07e75911e5456a9d48c6dd8a981d6acfe460866e[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Thu Nov 2 00:19:54 2017 -0400
+
+    added code, images, and updated readme
+
+[33mcommit 1e697ee8822c799dc2e6cd67bc2229d5aef03c8c[m
+Author: Eric Wong <ericwong@cs.cmu.edu>
+Date:   Wed Nov 1 02:48:55 2017 -0400
+
+    initial commit
+
+[33mcommit 2f12437b0e0a07eb35c69b533aac2adc16ce2451[m
+Author: Eric Wong <riceric22@gmail.com>
+Date:   Wed Nov 1 02:35:32 2017 -0400
+
+    Initial commit

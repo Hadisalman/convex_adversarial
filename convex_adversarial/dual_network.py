@@ -101,10 +101,12 @@ class RobustBounds(nn.Module):
 
 def robust_loss(net, epsilon, X, y, 
                 size_average=True, device_ids=None, parallel=False, **kwargs):
+
     if parallel: 
         f = nn.DataParallel(RobustBounds(net, epsilon, **kwargs))(X,y)
     else: 
         f = RobustBounds(net, epsilon, **kwargs)(X,y)
+
     err = (f.max(1)[1] != y)
     if size_average: 
         err = err.sum().item()/X.size(0)

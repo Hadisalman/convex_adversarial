@@ -27,27 +27,48 @@ import os
 from IPython import embed
 
 def select_model(m): 
-    if m == 'large': 
+    if m == 'large':
         model = pblm.mnist_model_large().cuda()
-        _, test_loader = pblm.mnist_loaders(8)
+        _, test_loader = pblm.mnist_loaders(8, data_directory=args.data_dir)
+
     elif m == 'wide': 
         print("Using wide model with model_factor={}".format(args.model_factor))
-        _, test_loader = pblm.mnist_loaders(64//args.model_factor)
+        _, test_loader = pblm.mnist_loaders(64//args.model_factor, data_directory=args.data_dir)
         model = pblm.mnist_model_wide(args.model_factor).cuda()
-    elif m == 'deep': 
+
+    elif m == 'deep':
         print("Using deep model with model_factor={}".format(args.model_factor))
-        _, test_loader = pblm.mnist_loaders(64//(2**args.model_factor))
+        _, test_loader = pblm.mnist_loaders(64//(2**args.model_factor), data_directory=args.data_dir)
         model = pblm.mnist_model_deep(args.model_factor).cuda()
-    else: 
+
+    elif m == 'small':
         model = pblm.mnist_model().cuda()
-    embed() 
+
+    elif m == 'layers2_nodes10':
+        model = pblm.layers2_nodes10(784).cuda()
+
+    elif m == 'layers2_nodes100':
+        model = pblm.layers2_nodes100(784).cuda()
+
+    elif m == 'layers10_nodes100':
+        model = pblm.layers10_nodes100(784).cuda()
+
+    elif m == 'layers10_nodes500':
+        model = pblm.layers10_nodes500(784).cuda()
+
+    elif m == 'layers10_nodes1000':
+        model = pblm.layers10_nodes1000(784).cuda()
+
+    elif m == 'layers10_nodes5000':
+        model = pblm.layers10_nodes5000(784).cuda()
+
     return model
 
 
 if __name__ == "__main__": 
     args = pblm.argparser(opt='adam', verbose=200, starting_epsilon=0.01)
     
-    writer = SummaryWriter(os.path.join(args.output_dir, args.prefix))
+    # writer = SummaryWriter(os.path.join(args.output_dir, args.prefix))
 
     print("saving file to {}".format(args.prefix))
     setproctitle.setproctitle(args.prefix)
@@ -102,13 +123,12 @@ if __name__ == "__main__":
             else:
                 epsilon = args.epsilon
 
-
             # standard training
             if args.method == 'baseline': 
                 train_baseline(train_loader, model[0], opt, t, train_log,
-                                args.verbose)
+                                verbose=args.verbose)
                 err = evaluate_baseline(test_loader, model[0], t, test_log,
-                                args.verbose)
+                                verbose=args.verbose)
 
             # madry training
             elif args.method=='madry':
@@ -130,25 +150,36 @@ if __name__ == "__main__":
             # robust training
             else:
                 train_robust(train_loader, model[0], opt, epsilon, t,
-                   train_log, args.verbose, args.real_time,
+                   train_log, verbose=args.verbose, real_time=args.real_time,
                    norm_type=args.norm_train, bounded_input=True, **kwargs)
                 err = evaluate_robust(test_loader, model[0], args.epsilon,
                    t, test_log, args.verbose, args.real_time,
                    norm_type=args.norm_test, bounded_input=True, **kwargs)
             
             if err < best_err: 
-                best_err = err
-                torch.save({
-                    'state_dict' : [m.state_dict() for m in model], 
-                    'err' : best_err,
-                    'epoch' : t,
-                    'sampler_indices' : sampler_indices
-                    }, os.path.join(args.output_dir, args.prefix + "_best.pth"))
-                
-            torch.save({ 
-                'state_dict': [m.state_dict() for m in model],
-                'err' : err,
-                'epoch' : t,
-                'sampler_indices' : sampler_indices
-                }, os.path.join(args.output_dir, args.prefix + "_checkpoint.pth"))
-    writer.close()
+                while True:
+                    try:
+                        best_err = err
+                        torch.save({
+                            'state_dict' : [m.state_dict() for m in model], 
+                            'err' : best_err,
+                            'epoch' : t,
+                            'sampler_indices' : sampler_indices
+                            }, os.path.join(args.output_dir, args.prefix + "_best.pth"))
+                        break
+                    except Exception as e:
+                        print(e)
+            while True:
+                try:
+                    torch.save({ 
+                        'state_dict': [m.state_dict() for m in model],
+                        'err' : err,
+                        'epoch' : t,
+                        'sampler_indices' : sampler_indices
+                        }, os.path.join(args.output_dir, args.prefix + "_checkpoint.pth"))
+                    break
+                except Exception as e:
+                    print(e)
+
+
+    # writer.close()

@@ -1,0 +1,65 @@
+description: Job for CIFAR training for various CNN models
+
+auth:
+  # which virtual cluster you belong to (msrlabs, etc.). Everyone has access to "pnrsy".
+  vc: msrlabs
+  # physical cluster to use (cam, gcr, rr1, rr2) or Azure clusters (eu1, eu2, etc.)
+  cluster: rr1
+  docker:
+    image: hadisalman/test:latest
+
+code:
+  # local directory of the code. this will be uploaded to the server.
+  # $CONFIG_DIR is expanded to the directory of this config file
+  code_upload: true
+  local_dir: $CONFIG_DIR
+
+data:
+#   data upload is not required for this example
+  data_upload: true
+  local_dir: $CONFIG_DIR/data
+  remote_dir: data
+
+# list of jobs to run, we run 2 jobs in this example
+jobs:
+  # name must be unique across the jobs
+- name: small
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/train_network_cifar.py --model small --train
+
+- name: cifar_wide_1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/train_network_cifar.py --model cifar_wide_1 --train
+
+- name: cifar_wide_2
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/train_network_cifar.py --model cifar_wide_2 --train
+
+- name: cifar_wide_4
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/train_network_cifar.py --model cifar_wide_4 --train
+
+- name: cifar_deep_1
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/train_network_cifar.py --model cifar_deep_1 --train
+

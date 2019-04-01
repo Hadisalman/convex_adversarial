@@ -1,0 +1,420 @@
+description: Training mnist models (madry, cmu, normal)
+
+auth:
+  # which virtual cluster you belong to (msrlabs, etc.). Everyone has access to "pnrsy".
+  vc: msrlabs
+  # physical cluster to use (cam, gcr, rr1, rr2) or Azure clusters (eu1, eu2, etc.)
+  cluster: rr1
+  docker:
+    image: hadisalman/cmu_code:latest
+
+code:
+  # local directory of the code. this will be uploaded to the server.
+  # $CONFIG_DIR is expanded to the directory of this config file
+  code_upload: true
+  local_dir: $CONFIG_DIR
+
+data:
+#   data upload is not required for this example
+  data_upload: true
+  local_dir: $CONFIG_DIR/data
+  remote_dir: data
+
+# list of jobs to run, we run 2 jobs in this example
+jobs:
+  # name must be unique across the jobs
+# - name: job_baseline_small
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model small --method baseline 
+
+# - name: job_baseline_large
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model large --method baseline
+
+# - name: job_baseline_wide_1
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor 1 --method baseline
+
+# - name: job_baseline_wide_2
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor 2 --method baseline 
+
+# - name: job_baseline_wide_4
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor  4 --method baseline
+
+# - name: job_baseline_wide_8
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor  8 --method baseline
+
+# - name: job_baseline_wide_16
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor  16 --method baseline
+
+# - name: job_baseline_deep_1
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model deep --model_factor  1 --method baseline
+
+# - name: job_baseline_deep_2
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model deep --model_factor  2 --method baseline
+
+# - name: job_baseline_deep_3
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model deep --model_factor  3 --method baseline
+
+# - name: job_baseline_layers2_nodes10
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers2_nodes10 --method baseline
+
+# - name: job_baseline_layers2_nodes100
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers2_nodes100 --method baseline
+
+# - name: job_baseline_layers10_nodes100
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers10_nodes100 --method baseline
+
+# - name: job_baseline_layers10_nodes500
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers10_nodes500 --method baseline
+
+# - name: job_baseline_layers10_nodes1000
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers10_nodes1000 --method baseline
+
+# - name: job_baseline_layers10_nodes5000
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers10_nodes5000 --method baseline
+
+
+
+
+
+
+
+# - name: job_madry_small
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model small --method madry 
+
+# - name: job_madry_large
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model large --method madry
+
+# - name: job_madry_wide_1
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor 1 --method madry
+
+# - name: job_madry_wide_2
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor 2 --method madry 
+
+# - name: job_madry_wide_4
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor  4 --method madry
+
+# - name: job_madry_wide_8
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor  8 --method madry
+
+# - name: job_madry_wide_16
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor  16 --method madry
+
+# - name: job_madry_deep_1
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model deep --model_factor  1 --method madry
+
+# - name: job_madry_deep_2
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model deep --model_factor  2 --method madry
+
+# - name: job_madry_deep_3
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model deep --model_factor  3 --method madry
+
+# - name: job_madry_layers2_nodes10
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers2_nodes10 --method madry
+
+# - name: job_madry_layers2_nodes100
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers2_nodes100 --method madry
+
+# - name: job_madry_layers10_nodes100
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers10_nodes100 --method madry
+
+# - name: job_madry_layers10_nodes500
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers10_nodes500 --method madry
+
+# - name: job_madry_layers10_nodes1000
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers10_nodes1000 --method madry
+
+# - name: job_madry_layers10_nodes5000
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers10_nodes5000 --method madry
+
+
+
+
+
+
+
+# - name: job_robust_small
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model small --method robust 
+
+# - name: job_robust_large
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model large --method robust
+
+# - name: job_robust_wide_1
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor 1 --method robust
+
+# - name: job_robust_wide_2
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor 2 --method robust 
+
+- name: job_robust_wide_4
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model wide --model_factor  4 --method robust
+
+- name: job_robust_wide_8
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model wide --model_factor  8 --method robust
+
+# - name: job_robust_wide_16
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model wide --model_factor  16 --method robust
+
+# - name: job_robust_deep_1
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model deep --model_factor  1 --method robust
+
+- name: job_robust_deep_2
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model deep --model_factor  2 --method robust
+
+# - name: job_robust_deep_3
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model deep --model_factor  3 --method robust
+
+- name: job_robust_layers2_nodes10
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model layers2_nodes10 --method robust
+
+- name: job_robust_layers2_nodes100
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model layers2_nodes100 --method robust
+
+- name: job_robust_layers10_nodes100
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model layers10_nodes100 --method robust
+
+- name: job_robust_layers10_nodes500
+  # one gpu
+  sku: G1
+  command:
+  - pip install --user tensorflow tensorboard
+  - pip install --user tensorboardX 
+  - python examples/mnist.py --model layers10_nodes500 --method robust
+
+# - name: job_robust_layers10_nodes1000
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers10_nodes1000 --method robust
+
+# - name: job_robust_layers10_nodes5000
+#   # one gpu
+#   sku: G1
+#   command:
+#   - pip install --user tensorflow tensorboard
+#   - pip install --user tensorboardX 
+#   - python examples/mnist.py --model layers10_nodes5000 --method robust

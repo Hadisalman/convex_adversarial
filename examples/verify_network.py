@@ -41,8 +41,31 @@ def select_model(args):
 	
 	elif m == 'n1':
 		n1 = sio.loadmat('./MIPVerify_data/weights/mnist/n1.mat')
-		embed()
-		pass
+
+		b1 = n1['fc1/bias']
+		b2 = n1['fc2/bias']
+		b3 = n1['logits/bias']
+		w1 = n1['fc1/weight']
+		w2 = n1['fc2/weight']
+		w3 = n1['logits/weight']	
+		model = nn.Sequential(pblm.Flatten(),
+							  nn.Linear(w1.shape[0],w1.shape[1]),
+							  nn.ReLU(),
+							  nn.Linear(w2.shape[0],w2.shape[1]),
+							  nn.ReLU(),
+							  nn.Linear(w3.shape[0],w3.shape[1]),
+							  )
+		model[1].weight.data = torch.Tensor(w1).t()
+		model[1].bias.data = torch.Tensor(b1)
+		model[3].weight.data = torch.Tensor(w2).t()
+		model[3].bias.data = torch.Tensor(b2)
+		model[5].weight.data = torch.Tensor(w3).t()
+		model[5].bias.data = torch.Tensor(b3)
+		model = model.cuda()
+		_,test_loader = pblm.mnist_loaders(args.batch_size, 
+										data_directory=args.data_dir)
+
+		# embed()
 
 	elif m == 'n2':
 		pass
@@ -59,22 +82,61 @@ def select_model(args):
 
 		model = nn.Sequential(pblm.Flatten(),
 							  nn.Linear(w1.shape[0],w1.shape[1]),
-					          nn.ReLU(),
-					          nn.Linear(w2.shape[0],w2.shape[1])
-					          )
+							  nn.ReLU(),
+							  nn.Linear(w2.shape[0],w2.shape[1])
+							  )
 		model[1].weight.data = torch.Tensor(w1).t()
 		model[1].bias.data = torch.Tensor(b1)
 		model[3].weight.data = torch.Tensor(w2).t()
 		model[3].bias.data = torch.Tensor(b2)
 		model = model.cuda()
+		# embed()
 		_,test_loader = pblm.mnist_loaders(args.batch_size, 
 										data_directory=args.data_dir)
 
-	else:
+	elif m == 'small':
 		model = pblm.mnist_model().cuda()
 		_,test_loader = pblm.mnist_loaders(args.batch_size, 
 										data_directory=args.data_dir)
-		
+		# path = '../models_scaled/mnist_small_0_1.pth'
+		path = './weights/cnn_small_madry.pth'
+	
+	elif m == 'layers2_nodes10':
+		model = pblm.layers2_nodes10(784).cuda()
+		_,test_loader = pblm.mnist_loaders(args.batch_size, 
+										data_directory=args.data_dir)
+
+	elif m == 'layers2_nodes100':
+		model = pblm.layers2_nodes100(784).cuda()
+		_,test_loader = pblm.mnist_loaders(args.batch_size, 
+										data_directory=args.data_dir)
+		path = './weights/layers2_nodes100_madry_0.03.pth'
+
+	elif m == 'layers10_nodes100':
+		model = pblm.layers10_nodes100(784).cuda()
+		_,test_loader = pblm.mnist_loaders(args.batch_size, 
+										data_directory=args.data_dir)
+
+	elif m == 'layers10_nodes500':
+		model = pblm.layers10_nodes500(784).cuda()
+		_,test_loader = pblm.mnist_loaders(args.batch_size, 
+										data_directory=args.data_dir)
+
+	elif m == 'layers10_nodes1000':
+		model = pblm.layers10_nodes1000(784).cuda()
+		_,test_loader = pblm.mnist_loaders(args.batch_size, 
+										data_directory=args.data_dir)
+
+	elif m == 'layers10_nodes5000':
+		model = pblm.layers10_nodes5000(784).cuda()
+		_,test_loader = pblm.mnist_loaders(args.batch_size, 
+										data_directory=args.data_dir)		
+
+	if args.load:
+		# checkpoint = torch.load('./master_seed_1_epochs_100.pth')
+		checkpoint = torch.load(path)['state_dict'][0]
+		model.load_state_dict(checkpoint)
+		# best_epoch = checkpoint['epoch']
 
 	return model, test_loader
 
@@ -82,9 +144,9 @@ def select_model(args):
 if __name__ == "__main__": 
 	args = pblm.argparser(opt='adam', verbose=200)
 	
-	writer = SummaryWriter(os.path.join(args.output_dir, "normal"))
-	writer_madry = SummaryWriter(os.path.join(args.output_dir, "madry"))
-	writer_wong = SummaryWriter(os.path.join(args.output_dir, "wong"))
+	# writer = SummaryWriter(os.path.join(args.output_dir, "normal"))
+	# writer_madry = SummaryWriter(os.path.join(args.output_dir, "madry"))
+	# writer_wong = SummaryWriter(os.path.join(args.output_dir, "wong"))
 
 	print("saving file to {}".format(args.prefix))
 	setproctitle.setproctitle(args.prefix)
@@ -104,15 +166,11 @@ if __name__ == "__main__":
 	
 	# The test_loader's batch_size varies with the model size for CUDA memory issues  
 	model, test_loader = select_model(args)
-		
-	if args.load:
-		checkpoint = torch.load('./master_seed_1_epochs_100.pth')
-		model.load_state_dict(checkpoint)
-		# best_epoch = checkpoint['epoch']
+	
 	best_err = evaluate_baseline(test_loader, model, verbose=False)
-	print('best error: ', best_err)
-	embed()
-
+	print('normal error: ', best_err)
+	# embed()
+	t = 0
 	if args.train:
 		if args.opt == 'adam': 
 			opt = optim.Adam(model.parameters(), lr=args.lr)
@@ -125,7 +183,7 @@ if __name__ == "__main__":
 
 		for t in range(args.epochs):
 			train_baseline(train_loader, model, opt, t, train_log,
-							writer, args.verbose)
+							verbose=args.verbose)
 			err = evaluate_baseline(test_loader, model, t, test_log, 
 								args.verbose)
 
@@ -138,7 +196,7 @@ if __name__ == "__main__":
 					'epoch' : t,
 					}, os.path.join(args.output_dir, args.prefix + "_best.pth"))
 				
-			torch.save({ 
+			torch.save({
 				'state_dict': model.state_dict(),
 				'err' : err,
 				'epoch' : t,
@@ -147,8 +205,10 @@ if __name__ == "__main__":
 		# load best model
 		model.load_state_dict(best_model_state_dict)
 
-	embed()
-	epsilons = np.linspace(1e-1, 1e-3, num=20)
+	# embed()
+	# epsilons = np.linspace(1e-1, 1e-3, num=20)
+	epsilons = [args.epsilon]
+	print('Validating for these epsilons: ', epsilons)
 	for it, epsilon in enumerate(epsilons):
 		err_madry = evaluate_madry(test_loader, model, epsilon, 
 							 t, test_log, args.verbose)
@@ -157,10 +217,11 @@ if __name__ == "__main__":
 		   t, test_log, args.verbose, args.real_time,
 		   norm_type=args.norm_test, bounded_input=True, **kwargs)
 		
-		writer.add_scalar('verification/error', err, it)   
-		writer_madry.add_scalar('verification/error', err_madry, it)   
-		writer_wong.add_scalar('verification/error', err_wong, it)   
+		# print('err_madry')
+		# writer.add_scalar('verification/error', err, it)   
+		# writer_madry.add_scalar('verification/error', err_madry, it)   
+		# writer_wong.add_scalar('verification/error', err_wong, it)   
 
-	writer.close()
-	writer_madry.close()
-	writer_wong.close()
+	# writer.close()
+	# writer_madry.close()
+	# writer_wong.close()

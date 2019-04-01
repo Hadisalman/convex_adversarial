@@ -32,7 +32,7 @@ def fgs(loader, model, epsilon, verbose=False, robust=False):
                   robust=robust)
 
 
-def _pgd(model, X, y, epsilon, niters=100, alpha=0.01): 
+def _pgd(model, X, y, epsilon, niters=10, alpha=0.1): 
     out = model(X)
     ce = nn.CrossEntropyLoss()(out, y)
     err = (out.data.max(1)[1] != y.data).float().sum()  / X.size(0)
@@ -48,8 +48,11 @@ def _pgd(model, X, y, epsilon, niters=100, alpha=0.01):
         
         # adjust to be within [-epsilon, epsilon]
         eta = torch.clamp(X_pgd.data - X.data, -epsilon, epsilon)
-        X_pgd = Variable(X.data + eta, requires_grad=True)
-        
+        # X_pgd = Variable(X.data + eta, requires_grad=True)
+        X_pgd = Variable(torch.clamp(X.data + eta, 0, 1.0), requires_grad=True)
+        # from IPython import embed
+        # embed()
+
     err_pgd = (model(X_pgd).data.max(1)[1] != y.data).float().sum() / X.size(0)
     return err, err_pgd
 

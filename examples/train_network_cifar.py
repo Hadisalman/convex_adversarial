@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
 			for epoch in range(start_epoch, start_epoch + args.epochs):
 				train_baseline(train_loader, model, opt, epoch, train_log,
-								writer, args.verbose)
+								writer, verbose=args.verbose)
 				err = evaluate_baseline(test_loader, model, epoch, test_log, 
 									args.verbose, writer=writer)
 

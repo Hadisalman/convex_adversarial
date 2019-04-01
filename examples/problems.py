@@ -13,6 +13,131 @@ from convex_adversarial import Dense, DenseSequential
 import math
 import os
 
+
+def layers2_nodes10(input_dim):
+    net = nn.Sequential(
+        Flatten(),
+        nn.Linear(input_dim,10),
+        nn.ReLU(),
+        nn.Linear(10,10),
+        nn.ReLU(),
+        nn.Linear(10,10)
+    )
+    return net
+
+def layers2_nodes100(input_dim):
+    net = nn.Sequential(
+        Flatten(),
+        nn.Linear(input_dim,100),
+        nn.ReLU(),
+        nn.Linear(100,100),
+        nn.ReLU(),
+        nn.Linear(100,10)
+    )
+    return net
+
+def layers10_nodes100(input_dim):
+    net = nn.Sequential(
+        Flatten(),
+        nn.Linear(input_dim,100),
+        nn.ReLU(),
+        nn.Linear(100,100),
+        nn.ReLU(),
+        nn.Linear(100,100),
+        nn.ReLU(),
+        nn.Linear(100,100),
+        nn.ReLU(),
+        nn.Linear(100,100),
+        nn.ReLU(),
+        nn.Linear(100,100),
+        nn.ReLU(),
+        nn.Linear(100,100),
+        nn.ReLU(),
+        nn.Linear(100,100),
+        nn.ReLU(),
+        nn.Linear(100,100),
+        nn.ReLU(),
+        nn.Linear(100,10)
+    )
+    return net
+
+
+def layers10_nodes500(input_dim):
+    net = nn.Sequential(
+        Flatten(),
+        nn.Linear(input_dim,500),
+        nn.ReLU(),
+        nn.Linear(500,500),
+        nn.ReLU(),
+        nn.Linear(500,500),
+        nn.ReLU(),
+        nn.Linear(500,500),
+        nn.ReLU(),
+        nn.Linear(500,500),
+        nn.ReLU(),
+        nn.Linear(500,500),
+        nn.ReLU(),
+        nn.Linear(500,500),
+        nn.ReLU(),
+        nn.Linear(500,500),
+        nn.ReLU(),
+        nn.Linear(500,500),
+        nn.ReLU(),
+        nn.Linear(500,10)
+    )
+    return net
+
+
+def layers10_nodes1000(input_dim):
+    net = nn.Sequential(
+        Flatten(),
+        nn.Linear(input_dim,1000),
+        nn.ReLU(),
+        nn.Linear(1000,1000),
+        nn.ReLU(),
+        nn.Linear(1000,1000),
+        nn.ReLU(),
+        nn.Linear(1000,1000),
+        nn.ReLU(),
+        nn.Linear(1000,1000),
+        nn.ReLU(),
+        nn.Linear(1000,1000),
+        nn.ReLU(),
+        nn.Linear(1000,1000),
+        nn.ReLU(),
+        nn.Linear(1000,1000),
+        nn.ReLU(),
+        nn.Linear(1000,1000),
+        nn.ReLU(),
+        nn.Linear(1000,10)
+    )
+    return net
+
+def layers10_nodes5000(input_dim):
+    net = nn.Sequential(
+        Flatten(),
+        nn.Linear(input_dim,5000),
+        nn.ReLU(),
+        nn.Linear(5000,5000),
+        nn.ReLU(),
+        nn.Linear(5000,5000),
+        nn.ReLU(),
+        nn.Linear(5000,5000),
+        nn.ReLU(),
+        nn.Linear(5000,5000),
+        nn.ReLU(),
+        nn.Linear(5000,5000),
+        nn.ReLU(),
+        nn.Linear(5000,5000),
+        nn.ReLU(),
+        nn.Linear(5000,5000),
+        nn.ReLU(),
+        nn.Linear(5000,5000),
+        nn.ReLU(),
+        nn.Linear(5000,10)
+    )
+    return net
+
 def model_wide(in_ch, out_width, k): 
     model = nn.Sequential(
         nn.Conv2d(in_ch, 4*k, 4, stride=2, padding=1),
@@ -303,6 +428,78 @@ def cifar_model_resnet(N = 1, factor=1):
             if m.bias is not None: 
                 m.bias.data.zero_()
     return model
+
+
+def cifar_wide_1(training_mode=None): 
+    net = model_wide(3, 8, 1)
+    if training_mode is None:
+        print('Randomly initializing the network')
+        for m in net.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.bias.data.zero_()
+
+    return net
+
+def cifar_wide_2(training_mode=None): 
+    net = model_wide(3, 8, 2)
+    if training_mode == 'random':
+        print('Randomly initializing the network')
+        for m in net.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.bias.data.zero_()
+
+    return net
+
+def cifar_wide_4(training_mode=None): 
+    net = model_wide(3, 8, 4)
+    if training_mode == 'random':
+        print('Randomly initializing the network')
+        for m in net.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.bias.data.zero_()
+    return net
+
+def cifar_wide_8(training_mode=None): 
+    net = model_wide(3, 8, 8)
+    if training_mode == 'random':
+        print('Randomly initializing the network')
+        for m in net.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.bias.data.zero_()
+
+    return net
+
+def cifar_deep_1(training_mode=None):
+    net = model_deep(3, 8, 1)
+    if training_mode == 'random':
+        print('Randomly initializing the network')
+        for m in net.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.bias.data.zero_()
+
+    return net
+
+def cifar_deep_2(training_mode=None):
+    net = model_deep(3, 8, 2)
+    if training_mode == 'random':
+        print('Randomly initializing the network')
+        for m in net.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.bias.data.zero_()
+
+    return net
 
 def argparser(batch_size=50, epochs=20, seed=0, verbose=1, lr=1e-3, 
               epsilon=0.1, starting_epsilon=None, 
