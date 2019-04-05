@@ -402,20 +402,20 @@ def train_composite(loader, model, epsilon, opt, epoch, log, verbose,
         #                                      Variable(X), Variable(out.data.max(1)[1]), 
         #                                      norm_type=norm_type, bounded_input=bounded_input)
 
-        c = Variable(torch.eye(num_classes).type_as(X)[y].unsqueeze(1) - torch.eye(num_classes).type_as(X).unsqueeze(0))
-        if X.is_cuda:
-            c = c.cuda()
-        f = -dual_net(c)
-
-        robust_err = (f.max(1)[1] != y)
-        robust_err = robust_err.sum().item()/X.size(0)
-        robust_ce = nn.CrossEntropyLoss(reduce=True)(f, y)
-
+        # c = Variable(torch.eye(num_classes).type_as(X)[y].unsqueeze(1) - torch.eye(num_classes).type_as(X).unsqueeze(0))
+        # if X.is_cuda:
+        #     c = c.cuda()
+        # f = -dual_net(c)
         
         CC = torch.eye(num_classes).type_as(X).unsqueeze(0)
         zl = dual_net(CC).data.squeeze(0)
         CC = -torch.eye(num_classes).type_as(X).unsqueeze(0)
         zu = -dual_net(CC).data.squeeze(0)
+
+        # embed()
+        # robust_err = (f.max(1)[1] != y)
+        # robust_err = robust_err.sum().item()/X.size(0)
+        robust_ce = nn.MSELoss(reduce=True)(zu, zl)
 
         x = out.detach()
 
