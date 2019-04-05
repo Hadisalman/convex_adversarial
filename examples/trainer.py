@@ -2,7 +2,7 @@
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-from convex_adversarial import robust_loss, robust_loss_parallel
+from convex_adversarial import robust_loss, robust_loss_parallel, DualNetwork
 import torch.optim as optim
 
 import numpy as np
@@ -132,7 +132,6 @@ def evaluate_robust(loader, model, epsilon, epoch=None, log=None, verbose=None,
                file=log)
         if log is not None:
             log.flush()
-
 
         del X, y, robust_ce, out, ce
         if DEBUG and i ==10: 
@@ -373,6 +372,110 @@ def evaluate_madry(loader, model, epsilon, epoch=None, log=None, verbose=None, w
           'Test Error {error.avg:.5f}'
           .format(error=errors, perror=perrors))
     return perrors.avg
+
+def train_composite(loader, model, epsilon, opt, epoch, log, verbose,
+                norm_type, bounded_input):
+    batch_time = AverageMeter()
+    data_time = AverageMeter()
+    losses = AverageMeter()
+    errors = AverageMeter()
+    plosses = AverageMeter()
+    perrors = AverageMeter()
+
+    model.train()
+
+    end = time.time()
+    for i, (X,y) in enumerate(loader):
+        X,y = X.cuda(), y.cuda()
+        data_time.update(time.time() - end)
+
+
+        out = model[0](Variable(X))
+        ce = nn.CrossEntropyLoss()(out, Variable(y))
+        err = (out.data.max(1)[1] != y).float().sum()  / X.size(0)
+
+        num_classes = model[0][-1].out_features
+        dual_net = DualNetwork(model[0], X, epsilon, norm_type=norm_type, bounded_input=bounded_input)
+        # c = Variable(torch.eye(num_classes).type_as(X)[y].unsqueeze(1) - torch.eye(num_classes).type_as(X).unsqueeze(0))
+
+        # robust_ce, robust_err = robust_loss(model[0], epsilon, 
+        #                                      Variable(X), Variable(out.data.max(1)[1]), 
+        #                                      norm_type=norm_type, bounded_input=bounded_input)
+
+        c = Variable(torch.eye(num_classes).type_as(X)[y].unsqueeze(1) - torch.eye(num_classes).type_as(X).unsqueeze(0))
+        if X.is_cuda:
+            c = c.cuda()
+        f = -dual_net(c)
+
+        robust_err = (f.max(1)[1] != y)
+        robust_err = robust_err.sum().item()/X.size(0)
+        robust_ce = nn.CrossEntropyLoss(reduce=True)(f, y)
+
+        
+        CC = torch.eye(num_classes).type_as(X).unsqueeze(0)
+        zl = dual_net(CC).data.squeeze(0)
+        CC = -torch.eye(num_classes).type_as(X).unsqueeze(0)
+        zu = -dual_net(CC).data.squeeze(0)
+
+        x = out.detach()
+
+        for _ in range(50):
+            x.requires_grad_()
+            with torch.enable_grad():
+                logits = model[1](x)
+                loss = nn.CrossEntropyLoss()(logits, y)
+            grad = torch.autograd.grad(loss, [x])[0]
+            x = x.detach() + 0.01*torch.sign(grad.detach())
+            x = torch.min(torch.max(x, zl), zu)
+            x = torch.clamp(x, 0, 1)
+        X_pgd = x
+
+        # # perturb 
+        # X_pgd = Variable(out, requires_grad=True)
+        # for _ in range(50):
+        #     opt_pgd = optim.Adam([X_pgd], lr=1e-3)
+        #     opt.zero_grad()
+        #     loss = nn.CrossEntropyLoss()(model[1](X_pgd), Variable(y))
+        #     loss.backward()
+        #     eta = 0.01*X_pgd.grad.data.sign()
+        #     X_pgd = Variable(X_pgd.data + eta, requires_grad=True)
+            
+        #     # adjust to be within [zl, zu]
+        #     X_pgd = torch.min(torch.max(X_pgd, zl), zu)
+        #     X_pgd.data = torch.clamp(X_pgd.data, 0, 1)
+
+        # embed()
+        pout = model[1](Variable(X_pgd.data))
+        pce = nn.CrossEntropyLoss()(pout, Variable(y))
+        perr = (pout.data.max(1)[1] != y).float().sum()  / X.size(0)
+
+        opt.zero_grad()
+        loss = pce + robust_ce
+        loss.backward()
+        opt.step()
+
+        batch_time.update(time.time()-end)
+        end = time.time()
+        losses.update(ce.data.item(), X.size(0))
+        errors.update(err, X.size(0))
+        plosses.update(pce.data.item(), X.size(0))
+        perrors.update(perr, X.size(0))
+
+        print(epoch, i, ce.data.item(), err, file=log)
+        if verbose and i % verbose == 0: 
+            print('Epoch: [{0}][{1}/{2}]\t'
+                  'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
+                  'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
+                  'PGD Loss {ploss.val:.4f} ({ploss.avg:.4f})\t'
+                  'PGD Error {perrors.val:.3f} ({perrors.avg:.3f})\t'
+                  'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
+                  'Error {errors.val:.3f} ({errors.avg:.3f})'.format(
+                   epoch, i, len(loader), batch_time=batch_time,
+                   data_time=data_time, loss=losses, errors=errors, 
+                   ploss=plosses, perrors=perrors))
+        log.flush()
+
+
 
 def robust_loss_cascade(models, epsilon, X, y, **kwargs): 
     total_robust_ce = 0.
